@@ -1,7 +1,7 @@
-package bakalarka.elearningplatform.controllers
+package bakalarka.elearningplatform.controller
 
-import bakalarka.elearningplatform.actors.domain.User
-import bakalarka.elearningplatform.actors.web.UserService
+import bakalarka.elearningplatform.model.User
+import bakalarka.elearningplatform.service.UserService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 

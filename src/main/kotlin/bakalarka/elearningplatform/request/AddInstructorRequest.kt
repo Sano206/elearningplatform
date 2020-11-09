@@ -1,4 +1,4 @@
-package bakalarka.elearningplatform.actors.domain
+package bakalarka.elearningplatform.request
 
 
 
@@ -9,5 +9,5 @@ data class AddInstructorRequest(
         var password : String,
         var introduction: String = "",
         var qualification: String = "",
-        var avgReview: Long = 0L,
+        var avgReview: Double = 0.0,
 )

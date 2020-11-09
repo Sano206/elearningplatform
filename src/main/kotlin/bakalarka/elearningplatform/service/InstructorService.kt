@@ -1,12 +1,12 @@
-package bakalarka.elearningplatform.actors.web
+package bakalarka.elearningplatform.service
 
-import bakalarka.elearningplatform.actors.domain.AddInstructorRequest
-import bakalarka.elearningplatform.actors.domain.Instructor
+import bakalarka.elearningplatform.request.AddInstructorRequest
+import bakalarka.elearningplatform.model.Instructor
+import bakalarka.elearningplatform.db.InstructorRepository
 import org.springframework.stereotype.Service
 
 @Service
 class InstructorService(var instructorRepository: InstructorRepository) {
-
 
     fun getAll() = instructorRepository.findAll().toList()
 
@@ -18,5 +18,4 @@ class InstructorService(var instructorRepository: InstructorRepository) {
     fun get(id: Long) = instructorRepository.findById(id)
 
     fun update(instructor: Instructor) = instructorRepository.save(instructor)
-
 }

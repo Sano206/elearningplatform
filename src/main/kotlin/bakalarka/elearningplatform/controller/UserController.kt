@@ -1,8 +1,8 @@
-package bakalarka.elearningplatform.actors.web
+package bakalarka.elearningplatform.controller
 
-import bakalarka.elearningplatform.actors.domain.AddUserRequest
-import bakalarka.elearningplatform.actors.domain.User
-import org.springframework.stereotype.Component
+import bakalarka.elearningplatform.request.AddUserRequest
+import bakalarka.elearningplatform.model.User
+import bakalarka.elearningplatform.service.UserService
 import org.springframework.web.bind.annotation.*
 
 @RestController
