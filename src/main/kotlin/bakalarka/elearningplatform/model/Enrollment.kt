@@ -15,14 +15,15 @@ class Enrollment(
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
         var startingDate: LocalDate? = LocalDate.now(),
-        var finishedDate: LocalDate?,
+        var finishedDate: LocalDate? = null,
 
         @ManyToOne(cascade = [CascadeType.PERSIST])
         @JoinColumn(name = "user_id", referencedColumnName = "id")
-        var user: User,
+        @JsonIgnoreProperties("enrollment")
+        var user: User?,
 
         @ManyToOne(cascade = [CascadeType.PERSIST])
         @JoinColumn(name = "course_id", referencedColumnName = "id")
         @JsonIgnoreProperties("enrollment")
-        var course: Course,
+        var course: Course?,
 )

@@ -14,8 +14,10 @@ class Instructor(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
-        @OneToOne
-        @JsonIgnoreProperties("enrollments", "id")
+        @OneToOne(
+                cascade = [CascadeType.ALL]
+        )
+        @JsonIgnoreProperties("enrollments")
         var user: User,
         var introduction: String,
         var qualification: String,
@@ -26,6 +28,6 @@ class Instructor(
                 cascade = [CascadeType.PERSIST],
         )
         @OrderBy("id")
-        @JsonIgnoreProperties("instructor")
-        val courses: MutableSet<Course> = mutableSetOf()
+        @JsonIgnore
+        val course: MutableSet<Course> = mutableSetOf()
 )

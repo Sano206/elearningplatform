@@ -22,5 +22,5 @@ data class User(
         )
         @OrderBy("id")
         @JsonIgnore
-        var enrollments: MutableSet<Enrollment> = mutableSetOf()
+        var enrollment: MutableSet<Enrollment> = mutableSetOf()
         )

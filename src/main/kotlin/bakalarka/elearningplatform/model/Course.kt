@@ -20,7 +20,7 @@ data class Course(
         var language: String = "Slovak",
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "instructor_id", nullable = true)
-        @JsonIgnoreProperties("courses")
+        @JsonIgnoreProperties("course")
         val instructor: Instructor?,
 
         @OneToMany(

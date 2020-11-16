@@ -13,14 +13,9 @@ class EnrollmentController(
 ) {
 
     @GetMapping("/{userId}") //
-    fun getAll(@PathVariable id: Long) = enrollmentService.getAll(id)
+    fun findByUserId(@PathVariable userId: Long) = enrollmentService.findByUserId(userId)
 
-    @PostMapping("/add/{userId}/{courseId}") //TODO: vymysliet pridanie enrollmentu
-    fun add(@RequestBody requestBody: RequestBody){
+    @PostMapping("/add/{userId}/{courseId}")
+    fun add(@PathVariable userId: Long, @PathVariable courseId: Long) = enrollmentService.add(userId, courseId)
 
-
-    }
-
-    @GetMapping("/{id}")
-    fun get(@PathVariable id: Long) = enrollmentService.get(id)
 }
