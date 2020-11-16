@@ -1,9 +1,6 @@
 package bakalarka.elearningplatform.db
 
-import bakalarka.elearningplatform.model.Course
-import bakalarka.elearningplatform.model.Enrollment
-import bakalarka.elearningplatform.model.Instructor
-import bakalarka.elearningplatform.model.User
+import bakalarka.elearningplatform.model.*
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import sun.security.ec.point.ProjectivePoint
@@ -16,6 +13,9 @@ interface InstructorRepository : CrudRepository<Instructor, Long>
 
 @Repository
 interface CourseRepository : CrudRepository<Course, Long>
+
+@Repository
+interface CourseChapterRepository : CrudRepository<CourseChapter, Long>
 
 @Repository
 interface EnrollmentRepository : CrudRepository<Enrollment, Long>{

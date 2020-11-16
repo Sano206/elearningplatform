@@ -16,7 +16,11 @@ class UserService(
 
     fun add(request: AddUserRequest) : User {
         val (name, surname, email, password) = request
-        return userRepository.save(User(name, surname, email, password))
+        return userRepository.save(User(
+                name = name,
+                surname = surname,
+                email = email,
+                password = password))
     }
 
     fun get(id: Long) = userRepository.findById(id)

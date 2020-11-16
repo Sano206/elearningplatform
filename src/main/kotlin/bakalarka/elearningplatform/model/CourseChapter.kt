@@ -1,7 +1,10 @@
 package bakalarka.elearningplatform.model
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.springframework.stereotype.Component
+import java.util.*
 import javax.persistence.*
 
 @Component
@@ -14,9 +17,10 @@ data class CourseChapter(
         var chapterTitle: String,
         var description: String = "",
         @ManyToOne(
-                fetch = FetchType.LAZY,
+                fetch = FetchType.EAGER,
                 cascade = [CascadeType.PERSIST])
         @JoinColumn(name = "course_id", nullable = true)
-        var course: Course,
+        @JsonIgnore
+        var course: Course?,
 
-)
+        )

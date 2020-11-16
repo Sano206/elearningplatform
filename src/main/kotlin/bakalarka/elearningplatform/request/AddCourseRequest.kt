@@ -3,7 +3,7 @@ package bakalarka.elearningplatform.request
 import bakalarka.elearningplatform.model.Instructor
 
 data class AddCourseRequest(
-        val instructor: Instructor,
+        //val instructorId: Long,
         var title: String,
         var description: String = "",
         var fee: Long = 0,
