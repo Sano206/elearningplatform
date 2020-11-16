@@ -3,6 +3,7 @@ package bakalarka.elearningplatform.model
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
 import org.springframework.stereotype.Component
 import java.util.*
 import javax.persistence.*
@@ -16,11 +17,11 @@ data class CourseChapter(
         var id: Long? = null,
         var chapterTitle: String,
         var description: String = "",
+        var content: String = "",
         @ManyToOne(
                 fetch = FetchType.EAGER,
                 cascade = [CascadeType.PERSIST])
         @JoinColumn(name = "course_id", nullable = true)
         @JsonIgnore
-        var course: Course?,
-
+        var course: Course?
         )

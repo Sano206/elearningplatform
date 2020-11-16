@@ -19,7 +19,9 @@ class CourseService(
 
     fun getAll() = courseRepository.findAll().toList()
 
-    fun getOne(id: Long) = courseRepository.findById(id)
+    fun findById(id: Long) = courseRepository.findById(id)
+
+//    fun findByCourseTitle(title: String) = courseRepository.findByCourseTitle(title)
 
     fun addCourse(request: AddCourseRequest, instructorId: Long) : Course{
         val(title, description, fee, language) = request

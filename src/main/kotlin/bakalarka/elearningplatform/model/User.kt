@@ -1,6 +1,7 @@
 package bakalarka.elearningplatform.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonRootName
 import org.springframework.stereotype.Component
 import javax.persistence.Entity
 import javax.persistence.*
@@ -8,6 +9,7 @@ import javax.persistence.*
 @Component
 @Entity
 @Table(name = "user")
+@JsonRootName(value = "user")
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
