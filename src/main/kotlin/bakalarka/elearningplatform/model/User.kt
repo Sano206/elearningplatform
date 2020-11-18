@@ -1,6 +1,7 @@
 package bakalarka.elearningplatform.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonRootName
 import org.springframework.stereotype.Component
 import javax.persistence.Entity
@@ -23,6 +24,6 @@ data class User(
                 cascade = [CascadeType.PERSIST],
         )
         @OrderBy("id")
-        @JsonIgnore
-        var enrollment: MutableSet<Enrollment> = mutableSetOf()
+        @JsonIgnoreProperties("user")
+        var enrollment: MutableList<Enrollment> = mutableListOf()
         )

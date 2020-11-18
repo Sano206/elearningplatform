@@ -9,11 +9,11 @@ import bakalarka.elearningplatform.request.AddCourseChapterRequest
 import bakalarka.elearningplatform.request.AddCourseRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import kotlin.jvm.Throws
 
 @Service
 class CourseService(
         var courseRepository: CourseRepository,
-        var courseChapterRepository: CourseChapterRepository,
         var instructorRepository: InstructorRepository
 ) {
 
@@ -21,7 +21,7 @@ class CourseService(
 
     fun findById(id: Long) = courseRepository.findById(id)
 
-//    fun findByCourseTitle(title: String) = courseRepository.findByCourseTitle(title)
+    fun findByTitle(title: String) = courseRepository.findByTitle(title)
 
     fun addCourse(request: AddCourseRequest, instructorId: Long) : Course{
         val(title, description, fee, language) = request
@@ -33,10 +33,15 @@ class CourseService(
                 language = language))
     }
 
-    fun addChapter(request: AddCourseChapterRequest, courseId: Long) : CourseChapter{
-        val(chapterTitle) = request
-         return courseChapterRepository.save(CourseChapter(
-                chapterTitle = chapterTitle,
-                course = courseRepository.findByIdOrNull(courseId)))
+    fun updateCourse(courseId: Long, request: AddCourseRequest): Course? {
+        val(title, description, fee, language) = request
+        val instructor = courseRepository.findByIdOrNull(courseId)?.instructor ?: return null
+        return courseRepository.save(Course(
+                id = courseId,
+                instructor = instructor,
+                title = title,
+                description = description,
+                fee = fee,
+                language = language))
     }
 }

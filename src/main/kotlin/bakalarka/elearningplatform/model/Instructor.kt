@@ -28,6 +28,6 @@ class Instructor(
                 cascade = [CascadeType.PERSIST],
         )
         @OrderBy("id")
-        @JsonIgnore
-        val course: MutableSet<Course> = mutableSetOf()
+        @JsonIgnoreProperties("instructor")
+        val course: MutableList<Course> = mutableListOf()
 )

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/courses")
 class CourseController(
         var courseService: CourseService,
-        var courses: MutableList<Course> = mutableListOf()) {
+) {
 
     @GetMapping("")
     fun getAll() = courseService.getAll()
@@ -18,18 +18,18 @@ class CourseController(
     @GetMapping("/{courseId}")
     fun getById(@PathVariable courseId: Long) = courseService.findById(courseId)
 
- /*   @GetMapping("/{title}")
-    fun getByTitle(@PathVariable title: String) = courseService.findByCourseTitle(title)
-*/
+    @GetMapping("/find/{title}")
+    fun findByTitle(@PathVariable title: String) = courseService.findByTitle(title)
+
     @PostMapping("/addCourse/{instructorId}")
     fun addCourse(
             @PathVariable instructorId : Long,
             @RequestBody request: AddCourseRequest) = courseService.addCourse(request, instructorId)
 
-    @PostMapping("/{courseId}/addChapter")
-    fun addChapter(
-            @PathVariable courseId : Long,
-            @RequestBody request: AddCourseChapterRequest) = courseService.addChapter(request, courseId)
+    @PutMapping("/{courseId}/update")
+    fun updateCourse(
+            @PathVariable courseId: Long,
+            @RequestBody request: AddCourseRequest)= courseService.updateCourse(courseId, request)
 
 
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/users")
 class UserController(
         var userService: UserService,
-        private val users: MutableList<User> = mutableListOf()
 ) {
 
 
@@ -22,8 +21,10 @@ class UserController(
     @GetMapping("/{id}")
     fun get(@PathVariable id: Long) = userService.get(id)
 
-    @PutMapping("/update")
-    fun update(@RequestBody request: User) = userService.update(request)
+    @PutMapping("/{userId}/update")
+    fun update(
+            @PathVariable userId: Long,
+            @RequestBody request: AddUserRequest) = userService.update(request,userId)
 
 
 

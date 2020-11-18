@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/enrollments")
 class EnrollmentController(
         var enrollmentService: EnrollmentService,
-        var enrollments: MutableSet<Enrollment> = mutableSetOf()
 ) {
 
     @GetMapping("/{userId}") //

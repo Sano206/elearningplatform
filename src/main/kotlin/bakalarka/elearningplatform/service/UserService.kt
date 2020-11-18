@@ -1,8 +1,10 @@
 package bakalarka.elearningplatform.service
 
 import bakalarka.elearningplatform.db.UserRepository
+import bakalarka.elearningplatform.model.Course
 import bakalarka.elearningplatform.model.User
 import bakalarka.elearningplatform.request.AddUserRequest
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.PostMapping
@@ -31,7 +33,16 @@ class UserService(
 
     fun get(id: Long) = userRepository.findById(id)
 
-    fun update(user: User) = userRepository.save(user)
+    fun update(request: AddUserRequest, userId: Long): User? {
+        val(name, surname, email, password) = request
+        val user = userRepository.findByIdOrNull(userId) ?: return null
+        return userRepository.save(User(
+                id = userId,
+                name = name,
+                surname = surname,
+                email = email,
+                password = password))
+    }
 
 
 

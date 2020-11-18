@@ -22,6 +22,6 @@ data class CourseChapter(
                 fetch = FetchType.EAGER,
                 cascade = [CascadeType.PERSIST])
         @JoinColumn(name = "course_id", nullable = true)
-        @JsonIgnore
+        @JsonIgnoreProperties("courseChapter")
         var course: Course?
         )

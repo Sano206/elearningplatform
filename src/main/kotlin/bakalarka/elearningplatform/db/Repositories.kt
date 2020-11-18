@@ -3,7 +3,6 @@ package bakalarka.elearningplatform.db
 import bakalarka.elearningplatform.model.*
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import sun.security.ec.point.ProjectivePoint
 
 @Repository
 interface UserRepository : CrudRepository<User, Long>
@@ -12,7 +11,10 @@ interface UserRepository : CrudRepository<User, Long>
 interface InstructorRepository : CrudRepository<Instructor, Long>
 
 @Repository
-interface CourseRepository : CrudRepository<Course, Long>
+interface CourseRepository : CrudRepository<Course, Long>{
+
+    fun findByTitle(title: String) : MutableSet<Course>
+}
 
 @Repository
 interface CourseChapterRepository : CrudRepository<CourseChapter, Long>

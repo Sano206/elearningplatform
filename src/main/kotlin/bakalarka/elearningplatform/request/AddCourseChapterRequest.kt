@@ -1,5 +1,7 @@
 package bakalarka.elearningplatform.request
 
 data class AddCourseChapterRequest(
-        val title: String = "",
+        var chapterTitle: String = "",
+        var description: String = "",
+        var content: String = "",
         )
