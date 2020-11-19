@@ -4,6 +4,8 @@ import bakalarka.elearningplatform.model.*
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
+// TODO: GK - this should be in separate files
+
 @Repository
 interface UserRepository : CrudRepository<User, Long>
 

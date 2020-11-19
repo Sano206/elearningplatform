@@ -17,6 +17,8 @@ class EnrollmentService(
     fun findByUserId(id: Long) = enrollmentRepository.findByUserId(id)
 
     fun add(userId: Long, courseId: Long) : Enrollment {
+        // TODO: GK - you can use
+        // val userCheck =  userRepository.findByIdOrNull(userId) ?: throw UserNotFoundException() or throw ResourceNotFoundException()
         val userCheck =  userRepository.findByIdOrNull(userId)
         val courseCheck = courseRepository.findByIdOrNull(courseId)
         // exception if(userCheck && courseCheck  == null) return

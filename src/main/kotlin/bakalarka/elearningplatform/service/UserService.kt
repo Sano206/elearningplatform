@@ -35,6 +35,7 @@ class UserService(
 
     fun update(request: AddUserRequest, userId: Long): User? {
         val(name, surname, email, password) = request
+        // TODO: GK - throw instead of returning null
         val user = userRepository.findByIdOrNull(userId) ?: return null
         return userRepository.save(User(
                 id = userId,

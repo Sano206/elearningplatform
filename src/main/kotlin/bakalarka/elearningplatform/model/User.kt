@@ -25,5 +25,6 @@ data class User(
         )
         @OrderBy("id")
         @JsonIgnoreProperties("user")
+        // TODO: GK - this is a list - use plural name
         var enrollment: MutableList<Enrollment> = mutableListOf()
         )

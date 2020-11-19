@@ -10,6 +10,7 @@ import javax.persistence.*
 
 @Component
 @Entity
+// TODO: GK - I would prefer course_chapters naming style, but apparently there isn't a single agreed on convention
 @Table(name="courseChapter")
 data class CourseChapter(
         @Id
@@ -21,6 +22,7 @@ data class CourseChapter(
         @ManyToOne(
                 fetch = FetchType.EAGER,
                 cascade = [CascadeType.PERSIST])
+        // TODO: GK - use the same convention for all database related names (either use courseId here or rename table to course_chapters)
         @JoinColumn(name = "course_id", nullable = true)
         @JsonIgnoreProperties("courseChapter")
         var course: Course?

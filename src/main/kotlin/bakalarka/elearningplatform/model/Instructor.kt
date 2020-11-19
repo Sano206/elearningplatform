@@ -29,5 +29,6 @@ class Instructor(
         )
         @OrderBy("id")
         @JsonIgnoreProperties("instructor")
+        // TODO: GK - this is a list - use plural name
         val course: MutableList<Course> = mutableListOf()
 )

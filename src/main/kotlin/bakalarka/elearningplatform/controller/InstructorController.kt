@@ -9,16 +9,20 @@ import bakalarka.elearningplatform.service.InstructorService
 class InstructorController(
         var instructorService: InstructorService,
 ) {
+    // TODO: GK - formatter
 
     @GetMapping("")
     fun getAll() = instructorService.getAll()
 
+    // TODO: GK - set path to ""
     @PostMapping("/add")
     fun add(@RequestBody request: AddUserRequest) = instructorService.add(request)
 
+    // TODO: GK - follow project convention and rename id to instructorId
     @GetMapping("/{id}")
     fun get(@PathVariable id: Long) = instructorService.get(id)
 
+    // TODO: GK - remove the trailing /update -- set path to /{instructorId}
     @PutMapping("/{instructorId}/update")
     fun update(
             @PathVariable instructorId: Long,

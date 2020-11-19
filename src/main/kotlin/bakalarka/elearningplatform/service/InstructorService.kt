@@ -16,6 +16,7 @@ class InstructorService(
 
     fun getAll() = instructorRepository.findAll().toList()
 
+    // TODO: GK - these functions are a bit weird
     fun add(request: AddUserRequest) : Instructor {
         val (name, surname, email, password, introduction, qualification) = request
         val user = userRepository.save(User(name = name, surname = surname, email = email, password = password))
@@ -27,7 +28,9 @@ class InstructorService(
 
     fun get(id: Long) = instructorRepository.findById(id)
 
+    // TODO: GK - these functions are a bit weird
     fun update(request: AddUserRequest, instructorId: Long): Instructor? {
+        // TODO: GK - also here you can use the "?: throw ...." syntax
         val instructor = instructorRepository.findByIdOrNull(instructorId)
         return if(instructor == null){
             null

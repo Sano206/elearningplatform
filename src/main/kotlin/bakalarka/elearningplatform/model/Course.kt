@@ -13,6 +13,7 @@ data class Course(
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
         var title: String,
+        // TODO: GK - I would remove the default values if they are unnecessary (also in other models)
         var description: String = "",
         var fee: Long = 0,
         var language: String = "Slovak",
@@ -27,6 +28,8 @@ data class Course(
         )
         @OrderBy("id")
         @JsonIgnoreProperties("course")
+        // TODO: GK - fix typo
+        // TODO: GK - this is a list - use plural name
         val courseChaper: MutableList<CourseChapter> = mutableListOf(),
 
         @OneToMany(
@@ -34,5 +37,6 @@ data class Course(
                 cascade = [CascadeType.PERSIST])
         @OrderBy("id")
         @JsonIgnoreProperties("course")
+        // TODO: GK - this is a list - use plural name
         var enrollment: MutableList<Enrollment> = mutableListOf()
 )

@@ -15,12 +15,15 @@ class UserController(
     @GetMapping("")
     fun getAll() = userService.getAll()
 
+    // TODO: GK - set path to ""
     @PostMapping("/add")
     fun add(@RequestBody request: AddUserRequest) = userService.add(request)
 
+    // TODO: GK - follow project convention and rename id to userId
     @GetMapping("/{id}")
     fun get(@PathVariable id: Long) = userService.get(id)
 
+    // TODO: GK - set path to /{userId}
     @PutMapping("/{userId}/update")
     fun update(
             @PathVariable userId: Long,
