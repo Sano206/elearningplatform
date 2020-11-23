@@ -12,6 +12,4 @@ class MainController(
 
         return "hello"
     }
-
-
 }

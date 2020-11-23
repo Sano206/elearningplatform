@@ -34,6 +34,4 @@ class UserService(
                 email = email,
                 password = password))
     }
-
-
 }
