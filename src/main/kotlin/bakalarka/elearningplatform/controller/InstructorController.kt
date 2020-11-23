@@ -1,30 +1,35 @@
 package bakalarka.elearningplatform.controller
 
-import org.springframework.web.bind.annotation.*
+import bakalarka.elearningplatform.request.AddCourseRequest
 import bakalarka.elearningplatform.request.AddUserRequest
+import bakalarka.elearningplatform.service.CourseService
 import bakalarka.elearningplatform.service.InstructorService
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/instructors")
 class InstructorController(
         var instructorService: InstructorService,
+        var courseService: CourseService
 ) {
-    // TODO: GK - formatter
 
     @GetMapping("")
     fun getAll() = instructorService.getAll()
 
-    // TODO: GK - set path to ""
-    @PostMapping("/add")
+    @PostMapping("")
     fun add(@RequestBody request: AddUserRequest) = instructorService.add(request)
 
-    // TODO: GK - follow project convention and rename id to instructorId
-    @GetMapping("/{id}")
-    fun get(@PathVariable id: Long) = instructorService.get(id)
+    @GetMapping("/{instructorId}")
+    fun get(@PathVariable instructorId: Long) = instructorService.get(instructorId)
 
-    // TODO: GK - remove the trailing /update -- set path to /{instructorId}
-    @PutMapping("/{instructorId}/update")
+    @PutMapping("/{instructorId}")
     fun update(
             @PathVariable instructorId: Long,
-            @RequestBody request: AddUserRequest) = instructorService.update(request,instructorId)
+            @RequestBody request: AddUserRequest) = instructorService.update(request, instructorId)
+
+    @PostMapping("/{instructorId}/courses")
+    fun addCourse(
+            @PathVariable instructorId: Long,
+            @RequestBody request: AddCourseRequest
+    ) = courseService.addCourse(request, instructorId)
 }

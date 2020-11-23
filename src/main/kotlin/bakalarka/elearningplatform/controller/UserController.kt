@@ -1,7 +1,7 @@
 package bakalarka.elearningplatform.controller
 
 import bakalarka.elearningplatform.request.AddUserRequest
-import bakalarka.elearningplatform.model.User
+import bakalarka.elearningplatform.service.EnrollmentService
 import bakalarka.elearningplatform.service.UserService
 import org.springframework.web.bind.annotation.*
 
@@ -9,26 +9,23 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/users")
 class UserController(
         var userService: UserService,
+        var enrollmentService: EnrollmentService
 ) {
-
 
     @GetMapping("")
     fun getAll() = userService.getAll()
 
-    // TODO: GK - set path to ""
-    @PostMapping("/add")
+    @PostMapping("")
     fun add(@RequestBody request: AddUserRequest) = userService.add(request)
 
-    // TODO: GK - follow project convention and rename id to userId
-    @GetMapping("/{id}")
-    fun get(@PathVariable id: Long) = userService.get(id)
+    @GetMapping("/{userId}")
+    fun get(@PathVariable userId: Long) = userService.get(userId)
 
-    // TODO: GK - set path to /{userId}
-    @PutMapping("/{userId}/update")
+    @PutMapping("/{userId}")
     fun update(
             @PathVariable userId: Long,
-            @RequestBody request: AddUserRequest) = userService.update(request,userId)
+            @RequestBody request: AddUserRequest) = userService.update(request, userId)
 
-
-
-    }
+    @GetMapping("/{userId}/enrollments") //
+    fun findByUserId(@PathVariable userId: Long) = enrollmentService.findByUserId(userId)
+}

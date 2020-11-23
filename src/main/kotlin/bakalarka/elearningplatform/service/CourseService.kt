@@ -1,15 +1,11 @@
 package bakalarka.elearningplatform.service
 
-import bakalarka.elearningplatform.db.CourseChapterRepository
 import bakalarka.elearningplatform.db.CourseRepository
 import bakalarka.elearningplatform.db.InstructorRepository
 import bakalarka.elearningplatform.model.Course
-import bakalarka.elearningplatform.model.CourseChapter
-import bakalarka.elearningplatform.request.AddCourseChapterRequest
 import bakalarka.elearningplatform.request.AddCourseRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import kotlin.jvm.Throws
 
 @Service
 class CourseService(
@@ -17,14 +13,14 @@ class CourseService(
         var instructorRepository: InstructorRepository
 ) {
 
-    fun getAll() = courseRepository.findAll().toList()
+    fun getAll() = courseRepository.findAll().toMutableSet()
 
     fun findById(id: Long) = courseRepository.findById(id)
 
-    fun findByTitle(title: String) = courseRepository.findByTitle(title)
+    fun findByTitle(title: String): MutableSet<Course> = courseRepository.findByTitle(title)
 
-    fun addCourse(request: AddCourseRequest, instructorId: Long) : Course{
-        val(title, description, fee, language) = request
+    fun addCourse(request: AddCourseRequest, instructorId: Long): Course {
+        val (title, description, fee, language) = request
         return courseRepository.save(Course(
                 instructor = instructorRepository.findByIdOrNull(instructorId),
                 title = title,
@@ -34,7 +30,7 @@ class CourseService(
     }
 
     fun updateCourse(courseId: Long, request: AddCourseRequest): Course? {
-        val(title, description, fee, language) = request
+        val (title, description, fee, language) = request
         val instructor = courseRepository.findByIdOrNull(courseId)?.instructor ?: return null
         return courseRepository.save(Course(
                 id = courseId,

@@ -1,42 +1,39 @@
 package bakalarka.elearningplatform.controller
 
-// TODO: GK - remove unused imports
 import bakalarka.elearningplatform.model.Course
 import bakalarka.elearningplatform.request.AddCourseChapterRequest
 import bakalarka.elearningplatform.request.AddCourseRequest
+import bakalarka.elearningplatform.service.ChapterService
 import bakalarka.elearningplatform.service.CourseService
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/courses")
 class CourseController(
-    var courseService: CourseService,
+        var courseService: CourseService,
+        var chapterService: ChapterService
 ) {
-    // TODO: GK - formatter
-
-    @GetMapping("")
-    fun getAll() = courseService.getAll()
 
     @GetMapping("/{courseId}")
     fun getById(@PathVariable courseId: Long) = courseService.findById(courseId)
 
-    // TODO: GK - merge with GET /courses, use @RequestParam instead, make title optional and either get all or filter
-    @GetMapping("/find/{title}")
-    fun findByTitle(@PathVariable title: String) = courseService.findByTitle(title)
+    @GetMapping("")
+    fun findByTitle(@RequestParam(required = false) title: String?): MutableSet<Course> {
+        return if (title == null) {
+            courseService.getAll()
+        } else {
+            courseService.findByTitle(title)
+        }
+    }
 
-    // TODO: GK - move to /instructors/{instructorId}/courses
-    @PostMapping("/addCourse/{instructorId}")
-    fun addCourse(
-        @PathVariable instructorId: Long,
-        @RequestBody request: AddCourseRequest
-    ) = courseService.addCourse(request, instructorId)
-
-    // TODO: GK - set path to /{courseId}
-    @PutMapping("/{courseId}/update")
+    @PutMapping("/{courseId}")
     fun updateCourse(
-        @PathVariable courseId: Long,
-        @RequestBody request: AddCourseRequest
+            @PathVariable courseId: Long,
+            @RequestBody request: AddCourseRequest
     ) = courseService.updateCourse(courseId, request)
 
-    // TODO: GK - clean up the empty lines
+    @PostMapping("/courses/{courseId}/chapters")
+    fun addChapter(
+            @PathVariable courseId: Long,
+            @RequestBody request: AddCourseChapterRequest) = chapterService.addChapter(request, courseId)
 }

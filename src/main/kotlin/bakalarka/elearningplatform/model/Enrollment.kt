@@ -3,8 +3,6 @@ package bakalarka.elearningplatform.model
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.springframework.stereotype.Component
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.*
 import javax.persistence.*
 
 @Component

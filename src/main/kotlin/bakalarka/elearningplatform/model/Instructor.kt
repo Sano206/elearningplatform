@@ -1,8 +1,6 @@
 package bakalarka.elearningplatform.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import org.springframework.stereotype.Component
 import javax.persistence.*
 
@@ -14,14 +12,11 @@ class Instructor(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
-        @OneToOne(
-                cascade = [CascadeType.ALL]
-        )
+        @OneToOne(cascade = [CascadeType.ALL])
         @JsonIgnoreProperties("enrollments")
         var user: User,
         var introduction: String,
         var qualification: String,
-        var avgReview: Double = 0.0,
 
         @OneToMany(
                 mappedBy = "instructor",
@@ -29,6 +24,5 @@ class Instructor(
         )
         @OrderBy("id")
         @JsonIgnoreProperties("instructor")
-        // TODO: GK - this is a list - use plural name
-        val course: MutableList<Course> = mutableListOf()
+        val courses: MutableList<Course> = mutableListOf()
 )

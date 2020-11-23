@@ -4,7 +4,7 @@ import bakalarka.elearningplatform.db.CourseRepository
 import bakalarka.elearningplatform.db.EnrollmentRepository
 import bakalarka.elearningplatform.db.UserRepository
 import bakalarka.elearningplatform.model.Enrollment
-import bakalarka.elearningplatform.model.User
+import bakalarka.elearningplatform.request.AddEnrollmentRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -16,12 +16,10 @@ class EnrollmentService(
 
     fun findByUserId(id: Long) = enrollmentRepository.findByUserId(id)
 
-    fun add(userId: Long, courseId: Long) : Enrollment {
-        // TODO: GK - you can use
-        // val userCheck =  userRepository.findByIdOrNull(userId) ?: throw UserNotFoundException() or throw ResourceNotFoundException()
-        val userCheck =  userRepository.findByIdOrNull(userId)
-        val courseCheck = courseRepository.findByIdOrNull(courseId)
-        // exception if(userCheck && courseCheck  == null) return
+    fun add(request: AddEnrollmentRequest): Enrollment {
+        val (userId, courseId) = request
+        val userCheck = userRepository.findByIdOrNull(userId) ?: throw Exception("User doesn't exist!")
+        val courseCheck = courseRepository.findByIdOrNull(courseId) ?: throw Exception("Course doesn't exist!")
         return enrollmentRepository.save(Enrollment(user = userCheck, course = courseCheck))
     }
 

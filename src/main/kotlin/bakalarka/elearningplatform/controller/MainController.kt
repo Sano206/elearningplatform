@@ -8,12 +8,10 @@ class MainController(
 ) {
 
     @GetMapping("/")
-    fun index() : String{
+    fun index(): String {
 
         return "hello"
     }
-
-
 
 
 }
