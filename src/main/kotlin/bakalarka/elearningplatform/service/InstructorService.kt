@@ -27,7 +27,7 @@ class InstructorService(
 
     fun get(id: Long) = instructorRepository.findById(id)
 
-    fun update(request: AddUserRequest, instructorId: Long): Instructor? {
+/*    fun update(request: AddUserRequest, instructorId: Long): Instructor? {
         val instructor = instructorRepository.findByIdOrNull(instructorId)
                 ?: throw Exception("Instructor doesn't exist!")
         return run {
@@ -38,5 +38,5 @@ class InstructorService(
                     introduction = request.introduction,
                     qualification = request.qualification))
         }
-    }
+    }*/
 }

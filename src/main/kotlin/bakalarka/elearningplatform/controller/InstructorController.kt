@@ -22,10 +22,10 @@ class InstructorController(
     @GetMapping("/{instructorId}")
     fun get(@PathVariable instructorId: Long) = instructorService.get(instructorId)
 
-    @PutMapping("/{instructorId}")
+/*    @PutMapping("/{instructorId}")
     fun update(
             @PathVariable instructorId: Long,
-            @RequestBody request: AddUserRequest) = instructorService.update(request, instructorId)
+            @RequestBody request: AddUserRequest) = instructorService.update(request, instructorId)*/
 
     @PostMapping("/{instructorId}/courses")
     fun addCourse(
