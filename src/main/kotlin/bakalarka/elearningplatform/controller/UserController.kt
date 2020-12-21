@@ -1,6 +1,5 @@
 package bakalarka.elearningplatform.controller
 
-import bakalarka.elearningplatform.model.User
 import bakalarka.elearningplatform.request.AddUserRequest
 import bakalarka.elearningplatform.service.EnrollmentService
 import bakalarka.elearningplatform.service.UserService
@@ -25,7 +24,7 @@ class UserController(
     @PutMapping("/{userId}")
     fun update(
             @PathVariable userId: Long,
-            @RequestBody request: User) = userService.update(request, userId)
+            @RequestBody request: AddUserRequest) = userService.update(request, userId)
 
     @GetMapping("/{userId}/enrollments") //
     fun findByUserId(@PathVariable userId: Long) = enrollmentService.findByUserId(userId)
