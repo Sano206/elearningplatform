@@ -24,15 +24,11 @@ class UserService(
 
     fun get(id: Long) = userRepository.findById(id)
 
-    fun update(request: AddUserRequest, userId: Long): User? {
-        val (name, surname, email, password) = request
-        val user = userRepository.findByIdOrNull(userId) ?: throw Exception("User doesn't exist!")
-        return userRepository.save(User(
-                id = userId,
-                name = name,
-                surname = surname,
-                email = email,
-                password = password))
+    fun update(request: User, userId: Long): User? {
+/*        val (name, surname, email, password) = request
+        val user = userRepository.findByIdOrNull(userId) ?: throw Exception("User doesn't exist!")*/
+        return userRepository.save(request)
+
     }
 
     fun delete(userId: Long) = userRepository.deleteById(userId)
