@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service
 @Service
 class InstructorService(
         var instructorRepository: InstructorRepository,
-        var userRepository: UserRepository,
-        var userService: UserService) {
+        var userRepository: UserRepository) {
 
     fun getAll() = instructorRepository.findAll().toList()
 
