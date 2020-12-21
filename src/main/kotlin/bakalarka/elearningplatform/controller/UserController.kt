@@ -28,4 +28,7 @@ class UserController(
 
     @GetMapping("/{userId}/enrollments") //
     fun findByUserId(@PathVariable userId: Long) = enrollmentService.findByUserId(userId)
+
+    @DeleteMapping("/{userId}")
+    fun delete(@PathVariable userId: Long) = userService.delete(userId)
 }

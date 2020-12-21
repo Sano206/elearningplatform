@@ -34,4 +34,6 @@ class UserService(
                 email = email,
                 password = password))
     }
+
+    fun delete(userId: Long) = userRepository.deleteById(userId)
 }
