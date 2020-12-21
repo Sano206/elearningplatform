@@ -36,4 +36,8 @@ class CourseController(
     fun addChapter(
             @PathVariable courseId: Long,
             @RequestBody request: AddCourseChapterRequest) = chapterService.addChapter(request, courseId)
+
+    @DeleteMapping("/courses/{courseId}")
+    fun deleteCourse(
+            @PathVariable courseId: Long) = courseService.deleteCourse(courseId = courseId)
 }

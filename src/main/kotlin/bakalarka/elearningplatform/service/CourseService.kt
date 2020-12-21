@@ -40,4 +40,9 @@ class CourseService(
                 fee = fee,
                 language = language))
     }
+
+    fun deleteCourse(courseId: Long) {
+        val course = courseRepository.findByIdOrNull(courseId) ?: throw IllegalArgumentException()
+        courseRepository.delete(course)
+    }
 }
