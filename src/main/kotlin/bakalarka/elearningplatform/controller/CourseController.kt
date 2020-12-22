@@ -32,12 +32,12 @@ class CourseController(
             @RequestBody request: AddCourseRequest
     ) = courseService.updateCourse(courseId, request)
 
-    @PostMapping("/courses/{courseId}/chapters")
+    @PostMapping("/{courseId}/chapters")
     fun addChapter(
             @PathVariable courseId: Long,
             @RequestBody request: AddCourseChapterRequest) = chapterService.addChapter(request, courseId)
 
-    @DeleteMapping("/courses/{courseId}")
+    @DeleteMapping("/{courseId}")
     fun deleteCourse(
             @PathVariable courseId: Long) = courseService.deleteCourse(courseId = courseId)
 }
