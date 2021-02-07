@@ -7,12 +7,12 @@ import javax.persistence.*
 
 @Component
 @Entity
-@Table(name = "instructor")
+@Table(name = "INSTRUCTOR")
 class Instructor(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
-        @OneToOne(cascade = [CascadeType.ALL])
+        @OneToOne(cascade = [CascadeType.PERSIST])
         @JsonIgnoreProperties("enrollments")
         var user: User,
         var introduction: String,

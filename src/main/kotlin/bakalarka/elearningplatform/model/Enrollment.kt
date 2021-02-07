@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Component
 @Entity
-@Table(name = "enrollment")
+@Table(name = "ENROLLMENT")
 class Enrollment(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
