@@ -12,6 +12,7 @@ data class CourseChapter(
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
         var chapterTitle: String,
+        @Column(length = 15000)
         var description: String,
         var content: String,
         @ManyToOne(

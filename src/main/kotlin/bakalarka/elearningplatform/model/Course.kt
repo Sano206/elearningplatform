@@ -12,6 +12,7 @@ data class Course(
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
         var title: String,
+        @Column(length = 15000)
         var description: String,
         var fee: Long,
         var language: String,

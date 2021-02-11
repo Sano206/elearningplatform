@@ -15,7 +15,9 @@ class Instructor(
         @OneToOne(cascade = [CascadeType.PERSIST])
         @JsonIgnoreProperties("enrollments")
         var user: User,
+        @Column(length = 15000)
         var introduction: String,
+        @Column(length = 15000)
         var qualification: String,
 
         @OneToMany(
