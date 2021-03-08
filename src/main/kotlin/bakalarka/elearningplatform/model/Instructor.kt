@@ -12,7 +12,7 @@ class Instructor(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
-        var userID: Long? = null,
+        val userID: String,
         @Column(length = 15000)
         var introduction: String,
         @Column(length = 15000)

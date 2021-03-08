@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class CourseService(
         var courseRepository: CourseRepository,
-        var instructorRepository: InstructorRepository
+        var instructorService: InstructorService
 ) {
 
     fun getAll() = courseRepository.findAll().toMutableSet()
@@ -19,10 +19,11 @@ class CourseService(
 
     fun findByTitle(title: String): MutableSet<Course> = courseRepository.findByTitle(title)
 
-    fun addCourse(request: AddCourseRequest, instructorId: Long): Course {
+    fun addCourse(request: AddCourseRequest): Course {
         val (title, description, fee, language) = request
+        val instructor = instructorService.findByUserID(UserService.getUserId())
         return courseRepository.save(Course(
-                instructor = instructorRepository.findByIdOrNull(instructorId),
+                instructor = instructor,
                 title = title,
                 description = description,
                 fee = fee,

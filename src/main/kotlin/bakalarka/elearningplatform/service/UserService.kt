@@ -1,39 +1,22 @@
 package bakalarka.elearningplatform.service
 
-import bakalarka.elearningplatform.db.UserRepository
-import bakalarka.elearningplatform.model.User
-import bakalarka.elearningplatform.request.AddUserRequest
-import org.springframework.data.repository.findByIdOrNull
-import org.springframework.stereotype.Service
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.jwt.Jwt
+import java.util.*
+import javax.naming.AuthenticationException
 
+class UserService {
 
-@Service
-class UserService(
-        var userRepository: UserRepository) {
+    companion object{
+        fun getUserId(): String {
+            val authentication = SecurityContextHolder.getContext().authentication
+            val principal = authentication.credentials as Jwt
+            val claims = principal.claims
+            if (!claims.containsKey("sub")) {
+                throw AuthenticationException()
+            }
 
-    fun getAll() = userRepository.findAll().toList()
-
-    fun add(request: AddUserRequest): User {
-        val (name, surname, email, password) = request
-        return userRepository.save(User(
-                name = name,
-                surname = surname,
-                email = email,
-                password = password))
+            return claims["sub"] as String
     }
-
-    fun get(id: Long) = userRepository.findById(id)
-
-    fun update(request: AddUserRequest, userId: Long): User? {
-        val (name, surname, email, password) = request
-        val user = userRepository.findByIdOrNull(userId) ?: throw Exception("User doesn't exist!")
-        return userRepository.save(User(
-                id = userId,
-                name = name,
-                surname = surname,
-                email = email,
-                password = password))
     }
-
-    fun delete(userId: Long) = userRepository.deleteById(userId)
 }

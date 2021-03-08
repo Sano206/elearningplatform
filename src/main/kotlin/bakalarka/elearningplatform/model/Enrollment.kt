@@ -15,10 +15,7 @@ class Enrollment(
         var startingDate: LocalDate? = LocalDate.now(),
         var finishedDate: LocalDate? = null,
 
-        @ManyToOne(cascade = [CascadeType.PERSIST])
-        @JoinColumn(name = "user_id", referencedColumnName = "id")
-        @JsonIgnoreProperties("enrollment")
-        var user: User?,
+        var userID: String,
 
         @ManyToOne(cascade = [CascadeType.PERSIST])
         @JoinColumn(name = "course_id", referencedColumnName = "id")

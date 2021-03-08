@@ -1,11 +1,10 @@
 package bakalarka.elearningplatform.controller
 
-import bakalarka.elearningplatform.request.AddCourseRequest
 import bakalarka.elearningplatform.request.AddInstructorRequest
-import bakalarka.elearningplatform.request.AddUserRequest
 import bakalarka.elearningplatform.request.UpdateInstructorRequest
 import bakalarka.elearningplatform.service.CourseService
 import bakalarka.elearningplatform.service.InstructorService
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -19,19 +18,15 @@ class InstructorController(
     fun getAll() = instructorService.getAll()
 
     @PostMapping("")
+    @PreAuthorize("hasAuthority('create:user')")
     fun add(@RequestBody request: AddInstructorRequest) = instructorService.add(request)
 
     @GetMapping("/{instructorId}")
-    fun get(@PathVariable instructorId: Long) = instructorService.get(instructorId)
+    fun get(@PathVariable instructorId: Long) = instructorService.getById(instructorId)
 
     @PutMapping("/{instructorId}")
     fun update(
             @PathVariable instructorId: Long,
             @RequestBody request: UpdateInstructorRequest) = instructorService.update(request, instructorId)
 
-    @PostMapping("/{instructorId}/courses")
-    fun addCourse(
-            @PathVariable instructorId: Long,
-            @RequestBody request: AddCourseRequest
-    ) = courseService.addCourse(request, instructorId)
 }

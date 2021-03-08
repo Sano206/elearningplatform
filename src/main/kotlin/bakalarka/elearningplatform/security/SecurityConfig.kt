@@ -38,7 +38,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-           //     .mvcMatchers(HttpMethod.GET, "/**").permitAll() // GET requests don't need auth
+                .mvcMatchers(HttpMethod.GET, "/courses").permitAll() // GET requests don't need auth
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -35,6 +35,14 @@ class CourseController(
             @RequestBody request: AddCourseRequest
     ) = courseService.updateCourse(courseId, request)
 
+    @PostMapping("")
+    @PreAuthorize("hasAuthority('create:courses')")
+    fun addCourse(
+            @RequestBody request: AddCourseRequest
+    ): Course {
+        return courseService.addCourse(request)
+    }
+
     @PostMapping("/{courseId}/chapters")
     fun addChapter(
             @PathVariable courseId: Long,

@@ -1,14 +1,9 @@
 package bakalarka.elearningplatform.controller
 
-import bakalarka.elearningplatform.request.AddUserRequest
-import bakalarka.elearningplatform.service.EnrollmentService
-import bakalarka.elearningplatform.service.UserService
-import org.springframework.web.bind.annotation.*
-
+/*
 @RestController
 @RequestMapping("/users")
 class UserController(
-        var userService: UserService,
         var enrollmentService: EnrollmentService
 ) {
 
@@ -32,3 +27,4 @@ class UserController(
     @DeleteMapping("/{userId}")
     fun delete(@PathVariable userId: Long) = userService.delete(userId)
 }
+*/

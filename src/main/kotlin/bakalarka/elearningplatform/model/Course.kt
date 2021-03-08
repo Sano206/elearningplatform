@@ -30,7 +30,7 @@ data class Course(
         val courseChapters: MutableList<CourseChapter> = mutableListOf(),
 
         @OneToMany(
-                mappedBy = "user",
+                mappedBy = "userID",
                 cascade = [CascadeType.PERSIST])
         @OrderBy("id")
         @JsonIgnoreProperties("course")

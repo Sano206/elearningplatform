@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface EnrollmentRepository : CrudRepository<Enrollment, Long> {
 
-    fun findByUserId(id: Long): MutableSet<Enrollment>
+    fun findByUserID(userID: String): MutableSet<Enrollment>
 }
