@@ -19,6 +19,12 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import java.util.List
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
+
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
+
+
+
 
 
 @EnableWebSecurity
@@ -32,13 +38,17 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .mvcMatchers(HttpMethod.GET, "/**").permitAll() // GET requests don't need auth
+           //     .mvcMatchers(HttpMethod.GET, "/**").permitAll() // GET requests don't need auth
                 .anyRequest()
                 .authenticated()
+                .and()
+                .cors()
+                .configurationSource(corsConfigurationSource())
                 .and()
                 .oauth2ResourceServer()
                 .jwt()
                 .decoder(jwtDecoder())
+                .jwtAuthenticationConverter(jwtAuthenticationConverter())
     }
 
     fun corsConfigurationSource(): CorsConfigurationSource? {
@@ -54,12 +64,21 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         return source
     }
 
-    fun jwtDecoder(): JwtDecoder {
+    fun jwtDecoder(): JwtDecoder? {
         val withAudience: OAuth2TokenValidator<Jwt> = AudienceValidator(audience!!)
         val withIssuer = JwtValidators.createDefaultWithIssuer(issuer)
         val validator: OAuth2TokenValidator<Jwt> = DelegatingOAuth2TokenValidator(withAudience, withIssuer)
         val jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuer) as NimbusJwtDecoder
         jwtDecoder.setJwtValidator(validator)
         return jwtDecoder
+    }
+
+    fun jwtAuthenticationConverter(): JwtAuthenticationConverter? {
+        val converter = JwtGrantedAuthoritiesConverter()
+        converter.setAuthoritiesClaimName("permissions")
+        converter.setAuthorityPrefix("")
+        val jwtConverter = JwtAuthenticationConverter()
+        jwtConverter.setJwtGrantedAuthoritiesConverter(converter)
+        return jwtConverter
     }
 }

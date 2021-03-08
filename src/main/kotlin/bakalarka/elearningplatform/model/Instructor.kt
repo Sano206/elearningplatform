@@ -12,9 +12,7 @@ class Instructor(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
-        @OneToOne(cascade = [CascadeType.PERSIST])
-        @JsonIgnoreProperties("enrollments")
-        var user: User,
+        var userID: Long? = null,
         @Column(length = 15000)
         var introduction: String,
         @Column(length = 15000)

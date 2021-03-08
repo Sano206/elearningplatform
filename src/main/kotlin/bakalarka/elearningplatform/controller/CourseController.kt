@@ -5,6 +5,7 @@ import bakalarka.elearningplatform.request.AddCourseChapterRequest
 import bakalarka.elearningplatform.request.AddCourseRequest
 import bakalarka.elearningplatform.service.ChapterService
 import bakalarka.elearningplatform.service.CourseService
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -18,6 +19,7 @@ class CourseController(
     fun getById(@PathVariable courseId: Long) = courseService.findById(courseId)
 
     @GetMapping("")
+    @PreAuthorize("hasAuthority('open:courses')")
     fun findByTitle(@RequestParam(required = false) title: String?): MutableSet<Course> {
         return if (title == null) {
             courseService.getAll()
@@ -27,6 +29,7 @@ class CourseController(
     }
 
     @PutMapping("/{courseId}")
+    @PreAuthorize("hasAuthority('update:courses')")
     fun updateCourse(
             @PathVariable courseId: Long,
             @RequestBody request: AddCourseRequest
