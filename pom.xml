@@ -80,7 +80,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>auth0</artifactId>
+            <version>1.27.0</version>
+        </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <!--  Needed to avoid conflict with OkHttp being used in auth0-java and okhttp3 being used by spring -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>4.9.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <finalName>application</finalName>

@@ -24,6 +24,9 @@ class InstructorController(
     @GetMapping("/{instructorId}")
     fun get(@PathVariable instructorId: Long) = instructorService.getById(instructorId)
 
+    @GetMapping("/daco")
+    fun get() = instructorService.managementTest()
+
     @PutMapping("/{instructorId}")
     fun update(
             @PathVariable instructorId: Long,

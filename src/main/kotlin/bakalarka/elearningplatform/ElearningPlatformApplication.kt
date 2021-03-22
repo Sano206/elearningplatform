@@ -17,4 +17,5 @@ class ElearningPlatformApplication
 
 fun main(args: Array<String>) {
     runApplication<ElearningPlatformApplication>(*args)
+
 }
