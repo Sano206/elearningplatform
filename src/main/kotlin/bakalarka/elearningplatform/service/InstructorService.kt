@@ -2,57 +2,61 @@ package bakalarka.elearningplatform.service
 
 import bakalarka.elearningplatform.db.InstructorRepository
 import bakalarka.elearningplatform.model.Instructor
-import bakalarka.elearningplatform.request.AddInstructorRequest
-import bakalarka.elearningplatform.request.UpdateInstructorRequest
+import bakalarka.elearningplatform.request.InstructorRequest
+import bakalarka.elearningplatform.request.UpdateUserRequest
 import bakalarka.elearningplatform.security.Management
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import com.auth0.exception.Auth0Exception
 
 import com.auth0.exception.APIException
 
-import com.auth0.client.mgmt.filter.UserFilter
-import com.auth0.json.mgmt.users.User
-import com.auth0.net.Request
-
 
 @Service
 class InstructorService(
         var instructorRepository: InstructorRepository,
-        var management: Management) {
+        var management: Management,
+        var userService: UserService
+) {
 
-    fun managementTest(): MutableMap<String, Any>? {
+/*    fun managementTest(): RequestEntity<String> {
         management.managementApi.users()
         val filter = UserFilter()
 
-        val request: Request<User> = management.managementApi.users().get("google-oauth2|102356123786588847342", filter)
-/*        try {
+        try {
 
         } catch (exception: APIException) {
             // api error
         } catch (exception: Auth0Exception) {
             // request error
-        }*/
-        val response: User = request.execute()
-/*        val data = User()
+        }
         val userId = UserService.getUserId()
-        val request: Request<User> = management.managementApi.users().update(userId, data)*/
-        response.appMetadata
-        response.appMetadata["roles"] = arrayOf("instructor", "user", "admin")
 
-        println(response.appMetadata)
-        return         response.appMetadata
 
-    }
+        return response
+
+    }*/
 
     fun getAll() = instructorRepository.findAll().toList()
 
     fun findByUserID(userID: String) = instructorRepository.findByUserID(userID)
 
-    fun add(request: AddInstructorRequest): Instructor {
+    fun add(request: InstructorRequest): Instructor {
         val (name, surname, introduction, qualification) = request
         val userId = UserService.getUserId()
-        val filter = UserFilter()
+        val userList = mutableListOf<String>()
+        userList.add(userId)
+        val roleRequest = management.managementApi.roles().assignUsers("rol_MGuvMqKSv1o2GXJ6",userList)
+        userService.update(UpdateUserRequest(name, surname))
+        try {
+            roleRequest.execute()
+        } catch (exception: APIException) {
+            // api error
+            println(exception)
+        } catch (exception: Auth0Exception) {
+            println(exception)
+            // request error
+        }
+        /*val filter = UserFilter()
         var request: Request<User> = management.managementApi.users().get(userId, filter)
         var response: User = request.execute()
         val data = User()
@@ -70,29 +74,32 @@ class InstructorService(
         } catch (exception: Auth0Exception) {
             println(exception)
             // request error
-        }
+        }*/
+
+
         val instructor = findByUserID(userId)
         if(instructor != null){
             return instructorRepository.save(Instructor(
                     id = instructor.id,
-                    userID = UserService.getUserId(),
+                    userID = userId,
                     introduction = introduction,
                     qualification = qualification))
         }
         return instructorRepository.save(Instructor(
-                userID = UserService.getUserId(),
+                userID = userId,
                 introduction = introduction,
                 qualification = qualification))
     }
 
     fun getById(id: Long) = instructorRepository.findById(id)
 
-    fun update(request: UpdateInstructorRequest, instructorId: Long): Instructor? {
-        val instructor = instructorRepository.findByIdOrNull(instructorId)
-                ?: throw Exception("Instructor doesn't exist!")
+    fun update(request: InstructorRequest): Instructor? {
+        val userId = UserService.getUserId()
+        val instructor = findByUserID(userId) ?: return null
+        userService.update(UpdateUserRequest(request.name, request.surname))
         return instructorRepository.save(Instructor(
-                id = instructorId,
-                userID = UserService.getUserId(),
+                id = instructor.id,
+                userID = userId,
                 introduction = request.introduction,
                 qualification = request.qualification))
     }
