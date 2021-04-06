@@ -8,7 +8,7 @@ import javax.persistence.*
 @Component
 @Entity
 @Table(name = "ENROLLMENT")
-class Enrollment(
+data class Enrollment(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
@@ -18,7 +18,7 @@ class Enrollment(
         var userID: String,
 
         @ManyToOne(cascade = [CascadeType.PERSIST])
-        @JoinColumn(name = "course_id", referencedColumnName = "id")
+        @JoinColumn(name = "course_id")
         @JsonIgnoreProperties("enrollment")
-        var course: Course?,
+        var course: Course,
 )

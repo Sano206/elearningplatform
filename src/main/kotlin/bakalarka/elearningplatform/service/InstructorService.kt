@@ -2,6 +2,7 @@ package bakalarka.elearningplatform.service
 
 import bakalarka.elearningplatform.db.InstructorRepository
 import bakalarka.elearningplatform.model.Instructor
+import bakalarka.elearningplatform.model.Roles
 import bakalarka.elearningplatform.request.InstructorRequest
 import bakalarka.elearningplatform.request.UpdateUserRequest
 import bakalarka.elearningplatform.security.Management
@@ -43,12 +44,9 @@ class InstructorService(
     fun add(request: InstructorRequest): Instructor {
         val (name, surname, introduction, qualification) = request
         val userId = UserService.getUserId()
-        val userList = mutableListOf<String>()
-        userList.add(userId)
-        val roleRequest = management.managementApi.roles().assignUsers("rol_MGuvMqKSv1o2GXJ6",userList)
         userService.update(UpdateUserRequest(name, surname))
         try {
-            roleRequest.execute()
+            userService.addUserRole(userId, Roles.INSTRUCTOR)
         } catch (exception: APIException) {
             // api error
             println(exception)

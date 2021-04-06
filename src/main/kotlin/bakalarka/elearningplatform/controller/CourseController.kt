@@ -18,6 +18,10 @@ class CourseController(
     @GetMapping("/{courseId}")
     fun getById(@PathVariable courseId: Long) = courseService.findById(courseId)
 
+    @GetMapping("/instructor")
+    @PreAuthorize("hasAuthority('update:courses')")
+    fun getByUserId() = courseService.findByUserId()
+
     @GetMapping("")
     @PreAuthorize("hasAuthority('open:courses')")
     fun findByTitle(@RequestParam(required = false) title: String?): MutableSet<Course> {
@@ -44,6 +48,7 @@ class CourseController(
     }
 
     @PostMapping("/{courseId}/chapters")
+    @PreAuthorize("hasAuthority('create:courses')")
     fun addChapter(
             @PathVariable courseId: Long,
             @RequestBody request: AddCourseChapterRequest) = chapterService.addChapter(request, courseId)

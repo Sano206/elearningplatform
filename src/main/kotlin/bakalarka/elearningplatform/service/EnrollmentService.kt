@@ -10,15 +10,26 @@ import org.springframework.stereotype.Service
 @Service
 class EnrollmentService(
         var enrollmentRepository: EnrollmentRepository,
-        var courseRepository: CourseRepository) {
+        var courseService: CourseService) {
 
-    fun findByUserId(id: String) = enrollmentRepository.findByUserID(id)
+    fun findByUserId(): MutableSet<Enrollment> {
+        val id = UserService.getUserId()
+        return enrollmentRepository.findByUserID(id)
+    }
 
-    fun add(request: AddEnrollmentRequest): Enrollment {
+    fun add(request: AddEnrollmentRequest): Enrollment? {
         val (courseId) = request
         val userID = UserService.getUserId()
-        val courseCheck = courseRepository.findByIdOrNull(courseId) ?: throw Exception("Course doesn't exist!")
-        return enrollmentRepository.save(Enrollment(userID = userID, course = courseCheck))
+        if(courseService.findById(courseId).isPresent) {
+            val course = courseService.findById(courseId).get()
+            if(findByUserId().any { enrollment: Enrollment -> enrollment.course == course }){
+                return null
+            }
+            return enrollmentRepository.save(Enrollment(userID = userID, course = course))
+        }else{
+            return null
+        }
+
     }
 
     fun get(id: Long) = enrollmentRepository.findById(id)

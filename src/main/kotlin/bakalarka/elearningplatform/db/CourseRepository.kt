@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
 interface CourseRepository : CrudRepository<Course, Long> {
 
     fun findByTitle(title: String): MutableSet<Course>
+
+    fun findByInstructor_UserID(userId: String): MutableSet<Course>
 }

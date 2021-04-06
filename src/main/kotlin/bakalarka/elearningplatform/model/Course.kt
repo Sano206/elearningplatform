@@ -17,7 +17,7 @@ data class Course(
         var fee: Long,
         var language: String,
         @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "instructor_id", nullable = true)
+        @JoinColumn(name = "instructor_id")
         @JsonIgnoreProperties("course")
         val instructor: Instructor?,
 
@@ -30,7 +30,7 @@ data class Course(
         val courseChapters: MutableList<CourseChapter> = mutableListOf(),
 
         @OneToMany(
-                mappedBy = "userID",
+                mappedBy = "course",
                 cascade = [CascadeType.PERSIST])
         @OrderBy("id")
         @JsonIgnoreProperties("course")
