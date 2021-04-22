@@ -21,4 +21,5 @@ data class Enrollment(
         @JoinColumn(name = "course_id")
         @JsonIgnoreProperties("enrollment")
         var course: Course,
+
 )

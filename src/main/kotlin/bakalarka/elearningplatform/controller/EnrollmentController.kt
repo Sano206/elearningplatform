@@ -12,7 +12,7 @@ class EnrollmentController(
 ) {
 
     @PostMapping("")
-    @PreAuthorize("hasAuthority('open:courses')")
+    @PreAuthorize("hasAuthority('open:courses')")  //TODO: vratit 403 - Bad Request
     fun add(@RequestBody request: AddEnrollmentRequest) = enrollmentService.add(request)
 
     @GetMapping("")

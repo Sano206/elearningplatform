@@ -25,18 +25,19 @@ class CourseService(
     fun findByTitle(title: String): MutableSet<Course> = courseRepository.findByTitle(title)
 
     fun addCourse(request: AddCourseRequest): Course {
-        val (title, description, fee, language) = request
+        val (title, description,shortDescription, fee, language) = request
         val instructor = instructorService.findByUserID(UserService.getUserId())
         return courseRepository.save(Course(
                 instructor = instructor,
                 title = title,
                 description = description,
+                shortDescription = shortDescription,
                 fee = fee,
                 language = language))
     }
 
     fun updateCourse(courseId: Long, request: AddCourseRequest): Course? {
-        val (title, description, fee, language) = request
+        val (title, description,shortDescription, fee, language) = request
         val instructor = courseRepository.findByIdOrNull(courseId)?.instructor ?: return null
         val userId = UserService.getUserId()
         if (instructor.userID != userId) return null
@@ -45,6 +46,7 @@ class CourseService(
                 instructor = instructor,
                 title = title,
                 description = description,
+                shortDescription = shortDescription,
                 fee = fee,
                 language = language))
     }

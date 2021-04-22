@@ -14,6 +14,7 @@ data class Course(
         var title: String,
         @Column(length = 15000)
         var description: String,
+        var shortDescription: String,
         var fee: Long,
         var language: String,
         @ManyToOne(fetch = FetchType.EAGER)
