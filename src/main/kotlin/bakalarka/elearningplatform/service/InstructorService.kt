@@ -80,11 +80,15 @@ class InstructorService(
             return instructorRepository.save(Instructor(
                     id = instructor.id,
                     userID = userId,
+                    name = name,
+                    surname = surname,
                     introduction = introduction,
                     qualification = qualification))
         }
         return instructorRepository.save(Instructor(
                 userID = userId,
+                name = name,
+                surname = surname,
                 introduction = introduction,
                 qualification = qualification))
     }
@@ -98,6 +102,8 @@ class InstructorService(
         return instructorRepository.save(Instructor(
                 id = instructor.id,
                 userID = userId,
+                name = request.name,
+                surname = request.surname,
                 introduction = request.introduction,
                 qualification = request.qualification))
     }

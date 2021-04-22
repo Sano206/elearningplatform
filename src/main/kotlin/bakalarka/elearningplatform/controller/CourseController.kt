@@ -20,11 +20,7 @@ class CourseController(
 
     @GetMapping("/instructor")
     @PreAuthorize("hasAuthority('update:courses')")
-    fun getByUserId(): MutableSet<Course> {
-        val courses = courseService.findByUserId()
-        println(courses.size)
-        return courses
-    }
+    fun getByUserId() = courseService.findByUserId()
 
     @GetMapping("")
     @PreAuthorize("hasAuthority('open:courses')")

@@ -19,6 +19,8 @@ class Instructor(
         var introduction: String,
         @Column(length = 15000)
         var qualification: String,
+        var name: String,
+        var surname: String,
 
         @OneToMany(
                 mappedBy = "instructor",
