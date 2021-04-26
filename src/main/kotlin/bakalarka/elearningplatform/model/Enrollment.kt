@@ -21,5 +21,13 @@ data class Enrollment(
         @JoinColumn(name = "course_id")
         @JsonIgnoreProperties("enrollment")
         var course: Course,
+){
+        @ElementCollection
+        var progress: MutableList<Boolean> = mutableListOf()
 
-)
+        init{
+                for (chapter in course.courseChapters){
+                        progress.add(false)
+                }
+        }
+}

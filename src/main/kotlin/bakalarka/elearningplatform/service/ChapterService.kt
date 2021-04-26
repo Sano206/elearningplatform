@@ -28,14 +28,20 @@ class ChapterService(
     fun updateChapter(chapterId: Long, request: AddCourseChapterRequest): CourseChapter? {
         val (chapterTitle, description, content) = request
         val course = courseChapterRepository.findByIdOrNull(chapterId)?.course
-        return courseChapterRepository.save(
-                CourseChapter(
-                        id = chapterId,
-                        chapterTitle = chapterTitle,
-                        description = description,
-                        content = content,
-                        course = course
-                )
-        )
+        if(course != null) {
+            val instructor = course.id?.let { courseRepository.findByIdOrNull(it)?.instructor } ?: return null
+            val userId = UserService.getUserId()
+            if (instructor.userID != userId) return null
+            return courseChapterRepository.save(
+                    CourseChapter(
+                            id = chapterId,
+                            chapterTitle = chapterTitle,
+                            description = description,
+                            content = content,
+                            course = course
+                    )
+            )
+        }
+        return null
     }
 }
