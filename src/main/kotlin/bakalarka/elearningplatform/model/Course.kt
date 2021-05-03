@@ -18,6 +18,7 @@ data class Course(
     var thumbnail: String,
     var fee: Long,
     var language: String,
+    var topic: TOPIC,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instructor_id")
     @JsonIgnoreProperties("course")

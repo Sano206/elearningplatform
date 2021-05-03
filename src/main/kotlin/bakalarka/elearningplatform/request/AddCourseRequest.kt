@@ -6,5 +6,6 @@ data class AddCourseRequest(
     var shortDescription: String,
     var thumbnail: String,
     var fee: Long,
-    var language: String
+    var language: String,
+    var topic: String,
 )

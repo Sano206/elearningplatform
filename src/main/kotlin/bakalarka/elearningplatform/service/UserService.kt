@@ -1,6 +1,6 @@
 package bakalarka.elearningplatform.service
 
-import bakalarka.elearningplatform.model.Roles
+import bakalarka.elearningplatform.model.ROLES
 import bakalarka.elearningplatform.request.UpdateUserRequest
 import bakalarka.elearningplatform.security.Management
 import com.auth0.client.mgmt.filter.PageFilter
@@ -11,7 +11,6 @@ import com.auth0.json.mgmt.users.User
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Service
-import java.util.*
 import javax.naming.AuthenticationException
 
 @Service
@@ -32,7 +31,7 @@ class UserService(
         }
     }
 
-    fun addUserRole(userId: String, role: Roles) {
+    fun addUserRole(userId: String, role: ROLES) {
         val userList = mutableListOf<String>()
         userList.add(userId)
         management.managementApi.roles().assignUsers(role.code, userList).execute()
@@ -48,7 +47,7 @@ class UserService(
         val dataRequest = management.managementApi.users().update(userId, data)
         try {
             if (!response.items.any { role: Role? -> role?.name == "user" }) {
-                addUserRole(userId, Roles.USER)
+                addUserRole(userId, ROLES.USER)
             }
             dataRequest.execute()
         } catch (exception: APIException) {

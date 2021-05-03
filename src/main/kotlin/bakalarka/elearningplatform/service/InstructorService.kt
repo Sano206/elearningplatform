@@ -2,7 +2,7 @@ package bakalarka.elearningplatform.service
 
 import bakalarka.elearningplatform.db.InstructorRepository
 import bakalarka.elearningplatform.model.Instructor
-import bakalarka.elearningplatform.model.Roles
+import bakalarka.elearningplatform.model.ROLES
 import bakalarka.elearningplatform.request.InstructorRequest
 import bakalarka.elearningplatform.request.UpdateUserRequest
 import bakalarka.elearningplatform.security.Management
@@ -44,7 +44,7 @@ class InstructorService(
         val userId = UserService.getUserId()
         userService.update(UpdateUserRequest(name, surname))
         try {
-            userService.addUserRole(userId, Roles.INSTRUCTOR)
+            userService.addUserRole(userId, ROLES.INSTRUCTOR)
         } catch (exception: APIException) {
             // api error
             println(exception)
@@ -52,25 +52,6 @@ class InstructorService(
             println(exception)
             // request error
         }
-        /*val filter = UserFilter()
-        var request: Request<User> = management.managementApi.users().get(userId, filter)
-        var response: User = request.execute()
-        val data = User()
-        data.givenName = name
-        data.familyName = surname
-        data.appMetadata = response.appMetadata
-        data.appMetadata["roles"] = arrayOf("instructor", "user")
-        request = management.managementApi.users().update(userId, data)
-        try {
-            val response: User = request.execute()
-            println(response)
-        } catch (exception: APIException) {
-            // api error
-            println(exception)
-        } catch (exception: Auth0Exception) {
-            println(exception)
-            // request error
-        }*/
 
         val instructor = findByUserID(userId)
         if (instructor != null) {

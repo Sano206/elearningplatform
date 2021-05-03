@@ -1,6 +1,7 @@
 package bakalarka.elearningplatform.controller
 
 import bakalarka.elearningplatform.model.Course
+import bakalarka.elearningplatform.model.TOPIC
 import bakalarka.elearningplatform.request.AddCourseChapterRequest
 import bakalarka.elearningplatform.request.AddCourseRequest
 import bakalarka.elearningplatform.service.ChapterService
@@ -38,6 +39,9 @@ class CourseController(
         @PathVariable courseId: Long,
         @RequestBody request: AddCourseRequest
     ) = courseService.updateCourse(courseId, request)
+
+    @GetMapping("/topics")
+    fun getTopics() = TOPIC.values()
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('create:courses')")
