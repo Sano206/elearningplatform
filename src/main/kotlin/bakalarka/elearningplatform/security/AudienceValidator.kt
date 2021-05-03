@@ -7,7 +7,6 @@ import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.util.Assert
 
-
 internal class AudienceValidator(audience: String) : OAuth2TokenValidator<Jwt> {
     private val audience: String
     override fun validate(jwt: Jwt): OAuth2TokenValidatorResult {

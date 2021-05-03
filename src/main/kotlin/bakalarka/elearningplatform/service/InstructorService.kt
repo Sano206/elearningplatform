@@ -6,17 +6,15 @@ import bakalarka.elearningplatform.model.Roles
 import bakalarka.elearningplatform.request.InstructorRequest
 import bakalarka.elearningplatform.request.UpdateUserRequest
 import bakalarka.elearningplatform.security.Management
-import org.springframework.stereotype.Service
-import com.auth0.exception.Auth0Exception
-
 import com.auth0.exception.APIException
-
+import com.auth0.exception.Auth0Exception
+import org.springframework.stereotype.Service
 
 @Service
 class InstructorService(
-        var instructorRepository: InstructorRepository,
-        var management: Management,
-        var userService: UserService
+    var instructorRepository: InstructorRepository,
+    var management: Management,
+    var userService: UserService
 ) {
 
 /*    fun managementTest(): RequestEntity<String> {
@@ -74,23 +72,28 @@ class InstructorService(
             // request error
         }*/
 
-
         val instructor = findByUserID(userId)
-        if(instructor != null){
-            return instructorRepository.save(Instructor(
+        if (instructor != null) {
+            return instructorRepository.save(
+                Instructor(
                     id = instructor.id,
                     userID = userId,
                     name = name,
                     surname = surname,
                     introduction = introduction,
-                    qualification = qualification))
+                    qualification = qualification
+                )
+            )
         }
-        return instructorRepository.save(Instructor(
+        return instructorRepository.save(
+            Instructor(
                 userID = userId,
                 name = name,
                 surname = surname,
                 introduction = introduction,
-                qualification = qualification))
+                qualification = qualification
+            )
+        )
     }
 
     fun getById(id: Long) = instructorRepository.findById(id)
@@ -99,13 +102,15 @@ class InstructorService(
         val userId = UserService.getUserId()
         val instructor = findByUserID(userId) ?: return null
         userService.update(UpdateUserRequest(request.name, request.surname))
-        return instructorRepository.save(Instructor(
+        return instructorRepository.save(
+            Instructor(
                 id = instructor.id,
                 userID = userId,
                 name = request.name,
                 surname = request.surname,
                 introduction = request.introduction,
-                qualification = request.qualification))
+                qualification = request.qualification
+            )
+        )
     }
 }
-

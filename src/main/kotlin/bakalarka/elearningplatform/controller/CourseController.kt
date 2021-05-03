@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/courses")
 class CourseController(
-        var courseService: CourseService,
-        var chapterService: ChapterService
+    var courseService: CourseService,
+    var chapterService: ChapterService
 ) {
 
     @GetMapping("/{courseId}")
@@ -35,14 +35,14 @@ class CourseController(
     @PutMapping("/{courseId}")
     @PreAuthorize("hasAuthority('update:courses')")
     fun updateCourse(
-            @PathVariable courseId: Long,
-            @RequestBody request: AddCourseRequest
+        @PathVariable courseId: Long,
+        @RequestBody request: AddCourseRequest
     ) = courseService.updateCourse(courseId, request)
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('create:courses')")
     fun addCourse(
-            @RequestBody request: AddCourseRequest
+        @RequestBody request: AddCourseRequest
     ): Course {
         return courseService.addCourse(request)
     }
@@ -50,10 +50,12 @@ class CourseController(
     @PostMapping("/{courseId}/chapters")
     @PreAuthorize("hasAuthority('create:courses')")
     fun addChapter(
-            @PathVariable courseId: Long,
-            @RequestBody request: AddCourseChapterRequest) = chapterService.addChapter(request, courseId)
+        @PathVariable courseId: Long,
+        @RequestBody request: AddCourseChapterRequest
+    ) = chapterService.addChapter(request, courseId)
 
     @DeleteMapping("/{courseId}")
     fun deleteCourse(
-            @PathVariable courseId: Long) = courseService.deleteCourse(courseId = courseId)
+        @PathVariable courseId: Long
+    ) = courseService.deleteCourse(courseId = courseId)
 }

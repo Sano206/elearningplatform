@@ -14,6 +14,7 @@ class ChapterController(var chapterService: ChapterService) {
     @PutMapping("/chapters/{chapterId}")
     @PreAuthorize("hasAuthority('update:courses')")
     fun updateChapter(
-            @PathVariable chapterId: Long,
-            @RequestBody request: AddCourseChapterRequest) = chapterService.updateChapter(chapterId, request)
+        @PathVariable chapterId: Long,
+        @RequestBody request: AddCourseChapterRequest
+    ) = chapterService.updateChapter(chapterId, request)
 }

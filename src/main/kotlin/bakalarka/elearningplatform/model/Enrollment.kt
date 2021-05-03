@@ -9,25 +9,19 @@ import javax.persistence.*
 @Entity
 @Table(name = "ENROLLMENT")
 data class Enrollment(
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        var id: Long? = null,
-        var startingDate: LocalDate? = LocalDate.now(),
-        var finishedDate: LocalDate? = null,
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id: Long? = null,
+    var startingDate: LocalDate? = LocalDate.now(),
+    var finishedDate: LocalDate? = null,
 
-        var userID: String,
+    var userID: String,
 
-        @ManyToOne(cascade = [CascadeType.PERSIST])
-        @JoinColumn(name = "course_id")
-        @JsonIgnoreProperties("enrollment")
-        var course: Course,
-){
-        @ElementCollection
-        var progress: MutableList<Boolean> = mutableListOf()
-
-        init{
-                for (chapter in course.courseChapters){
-                        progress.add(false)
-                }
-        }
+    @ManyToOne(cascade = [CascadeType.PERSIST])
+    @JoinColumn(name = "course_id")
+    @JsonIgnoreProperties("enrollment")
+    var course: Course,
+) {
+    @ElementCollection
+    var progress: MutableSet<Long> = mutableSetOf()
 }

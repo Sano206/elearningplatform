@@ -1,11 +1,9 @@
 package bakalarka.elearningplatform.service
 
-import bakalarka.elearningplatform.model.Instructor
 import bakalarka.elearningplatform.model.Roles
 import bakalarka.elearningplatform.request.UpdateUserRequest
 import bakalarka.elearningplatform.security.Management
 import com.auth0.client.mgmt.filter.PageFilter
-import com.auth0.client.mgmt.filter.UserFilter
 import com.auth0.exception.APIException
 import com.auth0.exception.Auth0Exception
 import com.auth0.json.mgmt.Role
@@ -18,7 +16,7 @@ import javax.naming.AuthenticationException
 
 @Service
 class UserService(
-        var management: Management
+    var management: Management
 ) {
 
     companion object {
@@ -34,7 +32,7 @@ class UserService(
         }
     }
 
-    fun addUserRole(userId: String, role: Roles){
+    fun addUserRole(userId: String, role: Roles) {
         val userList = mutableListOf<String>()
         userList.add(userId)
         management.managementApi.roles().assignUsers(role.code, userList).execute()
@@ -49,7 +47,7 @@ class UserService(
         data.familyName = surname
         val dataRequest = management.managementApi.users().update(userId, data)
         try {
-            if(!response.items.any { role: Role? -> role?.name == "user" }){
+            if (!response.items.any { role: Role? -> role?.name == "user" }) {
                 addUserRole(userId, Roles.USER)
             }
             dataRequest.execute()
@@ -61,5 +59,4 @@ class UserService(
             // request error
         }
     }
-
 }

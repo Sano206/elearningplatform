@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/enrollments")
 class EnrollmentController(
-        var enrollmentService: EnrollmentService,
+    var enrollmentService: EnrollmentService,
 ) {
 
     @PostMapping("")
-    @PreAuthorize("hasAuthority('open:courses')")  //TODO: vratit 403 - Bad Request
+    @PreAuthorize("hasAuthority('open:courses')") // TODO: vratit 403 - Bad Request
     fun add(@RequestBody request: AddEnrollmentRequest) = enrollmentService.add(request)
 
     @GetMapping("")
@@ -23,15 +23,14 @@ class EnrollmentController(
     @GetMapping("/{courseId}")
     @PreAuthorize("hasAuthority('open:courses')")
     fun getByCourseId(
-            @PathVariable courseId: Long
+        @PathVariable courseId: Long
     ) = enrollmentService.findByCourseId(courseId)
 
     @PutMapping("/{courseId}/{chapterId}")
     @PreAuthorize("hasAuthority('open:courses')")
     fun changeChapterProgress(
-            @PathVariable courseId: Long,
-            @PathVariable chapterId: Long,
-            @RequestBody request: UpdateProgressRequest
+        @PathVariable courseId: Long,
+        @PathVariable chapterId: Long,
+        @RequestBody request: UpdateProgressRequest
     ) = enrollmentService.changeChapterProgress(courseId, chapterId, request)
-
 }

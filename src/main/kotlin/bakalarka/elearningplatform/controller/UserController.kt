@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/users")
 class UserController(
-        var enrollmentService: EnrollmentService,
-        var userService: UserService
+    var enrollmentService: EnrollmentService,
+    var userService: UserService
 ) {
 
 /*    @GetMapping("")

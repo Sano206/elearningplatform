@@ -9,5 +9,4 @@ class ElearningplatformApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

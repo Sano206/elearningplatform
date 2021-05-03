@@ -1,17 +1,16 @@
 package bakalarka.elearningplatform.service
 
-import bakalarka.elearningplatform.db.CourseRepository
 import bakalarka.elearningplatform.db.EnrollmentRepository
 import bakalarka.elearningplatform.model.Enrollment
 import bakalarka.elearningplatform.request.AddEnrollmentRequest
 import bakalarka.elearningplatform.request.UpdateProgressRequest
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class EnrollmentService(
-        var enrollmentRepository: EnrollmentRepository,
-        var courseService: CourseService) {
+    var enrollmentRepository: EnrollmentRepository,
+    var courseService: CourseService
+) {
 
     fun findByUserId(): MutableSet<Enrollment> {
         val id = UserService.getUserId()
@@ -21,16 +20,15 @@ class EnrollmentService(
     fun add(request: AddEnrollmentRequest): Enrollment? {
         val (courseId) = request
         val userID = UserService.getUserId()
-        if(courseService.findById(courseId).isPresent) {
+        if (courseService.findById(courseId).isPresent) {
             val course = courseService.findById(courseId).get()
-            if(findByUserId().any { enrollment: Enrollment -> enrollment.course == course }){
+            if (findByUserId().any { enrollment: Enrollment -> enrollment.course == course }) {
                 return null
             }
             return enrollmentRepository.save(Enrollment(userID = userID, course = course))
-        }else{
+        } else {
             return null
         }
-
     }
 
     fun get(id: Long) = enrollmentRepository.findById(id)
@@ -46,11 +44,14 @@ class EnrollmentService(
         val (value) = request
         val enrollment = findByCourseId(courseId)
 
-        return if(enrollment?.course != null){
-            val index = enrollment.course.courseChapters.indexOfFirst { courseChapter -> courseChapter.id == chapterId }
-            enrollment.progress[index] = value
+        return if (enrollment?.course != null) {
+            if (value) {
+                enrollment.progress.add(chapterId)
+            } else {
+                enrollment.progress.remove(chapterId)
+            }
             return enrollmentRepository.save(enrollment)
-        }else{
+        } else {
             null
         }
     }

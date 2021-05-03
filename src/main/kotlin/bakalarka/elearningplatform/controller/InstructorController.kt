@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/instructors")
 class InstructorController(
-        var instructorService: InstructorService,
-        var courseService: CourseService
+    var instructorService: InstructorService,
+    var courseService: CourseService
 ) {
 
 /*    @GetMapping("")
@@ -30,5 +30,4 @@ class InstructorController(
 
     @PutMapping("")
     fun update(@RequestBody request: InstructorRequest) = instructorService.update(request)
-
 }
