@@ -24,7 +24,6 @@ class CourseController(
     fun getByUserId() = courseService.findByUserId()
 
     @GetMapping("")
-    @PreAuthorize("hasAuthority('open:courses')")
     fun findByTitle(@RequestParam(required = false) title: String?): MutableSet<Course> {
         return if (title == null) {
             courseService.getAll()
@@ -59,6 +58,7 @@ class CourseController(
     ) = chapterService.addChapter(request, courseId)
 
     @DeleteMapping("/{courseId}")
+    @PreAuthorize("hasAuthority('create:courses')")
     fun deleteCourse(
         @PathVariable courseId: Long
     ) = courseService.deleteCourse(courseId = courseId)
