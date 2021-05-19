@@ -37,7 +37,7 @@ class UserService(
         management.managementApi.roles().assignUsers(role.code, userList).execute()
     }
 
-    fun update(request: UpdateUserRequest) {
+    fun update(request: UpdateUserRequest): Boolean {
         val (name, surname) = request
         val userId = getUserId()
         val response = management.managementApi.users().listRoles(userId, PageFilter()).execute()
@@ -50,6 +50,7 @@ class UserService(
                 addUserRole(userId, ROLES.USER)
             }
             dataRequest.execute()
+            return true
         } catch (exception: APIException) {
             // api error
             println(exception)
@@ -57,5 +58,6 @@ class UserService(
             println(exception)
             // request error
         }
+        return false
     }
 }
