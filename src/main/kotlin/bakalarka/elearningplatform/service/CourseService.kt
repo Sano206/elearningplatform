@@ -4,13 +4,16 @@ import bakalarka.elearningplatform.db.CourseRepository
 import bakalarka.elearningplatform.model.Course
 import bakalarka.elearningplatform.model.TOPIC
 import bakalarka.elearningplatform.request.AddCourseRequest
+import bakalarka.elearningplatform.security.Management
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class CourseService(
     var courseRepository: CourseRepository,
-    var instructorService: InstructorService
+    var instructorService: InstructorService,
+    var userService: UserService,
+    var management: Management
 ) {
 
     fun getAll() = courseRepository.findAll().toMutableSet()
@@ -44,8 +47,7 @@ class CourseService(
     fun updateCourse(courseId: Long, request: AddCourseRequest): Course? {
         val (title, description, shortDescription, thumbnail, fee, language, topic) = request
         val instructor = courseRepository.findByIdOrNull(courseId)?.instructor ?: return null
-        val userId = UserService.getUserId()
-        if (instructor.userID != userId) return null
+        if (!userService.isOwnerOrAdmin(instructor)) return null
         return courseRepository.save(
             Course(
                 id = courseId,

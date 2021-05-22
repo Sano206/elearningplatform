@@ -1,5 +1,6 @@
 package bakalarka.elearningplatform.service
 
+import bakalarka.elearningplatform.model.Instructor
 import bakalarka.elearningplatform.model.ROLES
 import bakalarka.elearningplatform.request.UpdateUserRequest
 import bakalarka.elearningplatform.security.Management
@@ -35,6 +36,11 @@ class UserService(
         val userList = mutableListOf<String>()
         userList.add(userId)
         management.managementApi.roles().assignUsers(role.code, userList).execute()
+    }
+    fun isOwnerOrAdmin(instructor: Instructor): Boolean {
+        val userId = UserService.getUserId()
+        val rolesRequest = management.managementApi.users().listRoles(userId, PageFilter()).execute()
+        return !(instructor.userID != userId && !rolesRequest.items.any { role: Role? -> role?.name == "admin" })
     }
 
     fun update(request: UpdateUserRequest): Boolean {
