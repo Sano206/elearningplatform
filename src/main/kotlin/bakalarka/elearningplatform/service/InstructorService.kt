@@ -5,7 +5,6 @@ import bakalarka.elearningplatform.model.Instructor
 import bakalarka.elearningplatform.model.ROLES
 import bakalarka.elearningplatform.request.InstructorRequest
 import bakalarka.elearningplatform.request.UpdateUserRequest
-import bakalarka.elearningplatform.security.Management
 import com.auth0.exception.APIException
 import com.auth0.exception.Auth0Exception
 import org.springframework.stereotype.Service
@@ -13,27 +12,8 @@ import org.springframework.stereotype.Service
 @Service
 class InstructorService(
     var instructorRepository: InstructorRepository,
-    var management: Management,
     var userService: UserService
 ) {
-
-/*    fun managementTest(): RequestEntity<String> {
-        management.managementApi.users()
-        val filter = UserFilter()
-
-        try {
-
-        } catch (exception: APIException) {
-            // api error
-        } catch (exception: Auth0Exception) {
-            // request error
-        }
-        val userId = UserService.getUserId()
-
-
-        return response
-
-    }*/
 
     fun getAll() = instructorRepository.findAll().toList()
 
@@ -49,22 +29,8 @@ class InstructorService(
             // api error
             println(exception)
         } catch (exception: Auth0Exception) {
-            println(exception)
             // request error
-        }
-
-        val instructor = findByUserID(userId)
-        if (instructor != null) {
-            return instructorRepository.save(
-                Instructor(
-                    id = instructor.id,
-                    userID = userId,
-                    name = name,
-                    surname = surname,
-                    introduction = introduction,
-                    qualification = qualification
-                )
-            )
+            println(exception)
         }
         return instructorRepository.save(
             Instructor(
