@@ -5,6 +5,7 @@ import bakalarka.elearningplatform.db.CourseRepository
 import bakalarka.elearningplatform.model.Course
 import bakalarka.elearningplatform.model.CourseChapter
 import bakalarka.elearningplatform.request.AddCourseChapterRequest
+import bakalarka.elearningplatform.security.Management
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -13,6 +14,7 @@ class ChapterService(
     var courseChapterRepository: CourseChapterRepository,
     var courseRepository: CourseRepository,
     var userService: UserService,
+    var management: Management
 ) {
 
     fun addChapter(request: AddCourseChapterRequest, courseId: Long): CourseChapter {
