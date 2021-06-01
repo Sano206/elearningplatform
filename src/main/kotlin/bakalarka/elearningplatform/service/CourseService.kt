@@ -1,11 +1,11 @@
 package bakalarka.elearningplatform.service
 
 import bakalarka.elearningplatform.db.CourseRepository
+import bakalarka.elearningplatform.exceptions.AuthorizationException
+import bakalarka.elearningplatform.exceptions.ResourceNotFoundException
 import bakalarka.elearningplatform.model.Course
-import bakalarka.elearningplatform.model.TOPIC
+import bakalarka.elearningplatform.model.Topic
 import bakalarka.elearningplatform.request.AddCourseRequest
-import bakalarka.elearningplatform.security.Management
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -13,12 +13,11 @@ class CourseService(
     var courseRepository: CourseRepository,
     var instructorService: InstructorService,
     var userService: UserService,
-    var management: Management
 ) {
 
     fun getAll() = courseRepository.findAll().toMutableSet()
 
-    fun findById(id: Long) = courseRepository.findById(id)
+    fun findById(id: Long): Course = courseRepository.findById(id).orElseThrow { ResourceNotFoundException() }
 
     fun findByUserId(): MutableSet<Course> {
         val userId = UserService.getUserId()
@@ -39,15 +38,15 @@ class CourseService(
                 shortDescription = shortDescription,
                 fee = fee,
                 language = language,
-                topic = TOPIC.valueOf(topic),
+                topic = Topic.valueOf(topic),
             )
         )
     }
 
-    fun updateCourse(courseId: Long, request: AddCourseRequest): Course? {
+    fun updateCourse(courseId: Long, request: AddCourseRequest): Course {
         val (title, description, shortDescription, thumbnail, fee, language, topic) = request
-        val instructor = courseRepository.findByIdOrNull(courseId)?.instructor ?: return null
-        if (!userService.isOwnerOrAdmin(instructor)) return null
+        val instructor = findById(courseId).instructor
+        if (!userService.isOwnerOrAdmin(instructor)) throw AuthorizationException()
         return courseRepository.save(
             Course(
                 id = courseId,
@@ -58,14 +57,14 @@ class CourseService(
                 shortDescription = shortDescription,
                 fee = fee,
                 language = language,
-                topic = TOPIC.valueOf(topic)
+                topic = Topic.valueOf(topic)
 
             )
         )
     }
 
     fun deleteCourse(courseId: Long) {
-        val course = courseRepository.findByIdOrNull(courseId) ?: throw IllegalArgumentException()
+        val course = courseRepository.findById(courseId).orElseThrow { ResourceNotFoundException("Course with ID $courseId doesn't exist.") }
         courseRepository.delete(course)
     }
 }

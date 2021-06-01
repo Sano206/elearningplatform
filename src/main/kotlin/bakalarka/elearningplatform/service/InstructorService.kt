@@ -1,11 +1,12 @@
 package bakalarka.elearningplatform.service
 
 import bakalarka.elearningplatform.db.InstructorRepository
+import bakalarka.elearningplatform.exceptions.ResourceNotFoundException
+import bakalarka.elearningplatform.exceptions.ServerException
 import bakalarka.elearningplatform.model.Instructor
-import bakalarka.elearningplatform.model.ROLES
+import bakalarka.elearningplatform.model.Roles
 import bakalarka.elearningplatform.request.InstructorRequest
 import bakalarka.elearningplatform.request.UpdateUserRequest
-import bakalarka.elearningplatform.security.Management
 import com.auth0.exception.APIException
 import com.auth0.exception.Auth0Exception
 import org.springframework.stereotype.Service
@@ -13,58 +14,25 @@ import org.springframework.stereotype.Service
 @Service
 class InstructorService(
     var instructorRepository: InstructorRepository,
-    var management: Management,
     var userService: UserService
 ) {
 
-/*    fun managementTest(): RequestEntity<String> {
-        management.managementApi.users()
-        val filter = UserFilter()
-
-        try {
-
-        } catch (exception: APIException) {
-            // api error
-        } catch (exception: Auth0Exception) {
-            // request error
-        }
-        val userId = UserService.getUserId()
-
-
-        return response
-
-    }*/
-
     fun getAll() = instructorRepository.findAll().toList()
 
-    fun findByUserID(userID: String) = instructorRepository.findByUserID(userID)
+    fun findByUserID(userID: String): Instructor = instructorRepository.findByUserID(userID).orElseThrow { ResourceNotFoundException("Instructor was not found.") }
 
     fun add(request: InstructorRequest): Instructor {
         val (name, surname, introduction, qualification) = request
         val userId = UserService.getUserId()
         userService.update(UpdateUserRequest(name, surname))
         try {
-            userService.addUserRole(userId, ROLES.INSTRUCTOR)
+            userService.addUserRole(userId, Roles.INSTRUCTOR)
         } catch (exception: APIException) {
-            // api error
             println(exception)
+            throw ServerException()
         } catch (exception: Auth0Exception) {
             println(exception)
-            // request error
-        }
-
-        val instructor = findByUserID(userId)
-        if (instructor != null) {
-            return instructorRepository.save(
-                Instructor(
-                    id = instructor.id,
-                    userID = userId,
-                    name = name,
-                    surname = surname,
-                    introduction = introduction,
-                    qualification = qualification
-                )
-            )
+            throw ServerException()
         }
         return instructorRepository.save(
             Instructor(
@@ -79,9 +47,9 @@ class InstructorService(
 
     fun getById(id: Long) = instructorRepository.findById(id)
 
-    fun update(request: InstructorRequest): Instructor? {
+    fun update(request: InstructorRequest): Instructor {
         val userId = UserService.getUserId()
-        val instructor = findByUserID(userId) ?: return null
+        val instructor = findByUserID(userId)
         userService.update(UpdateUserRequest(request.name, request.surname))
         return instructorRepository.save(
             Instructor(

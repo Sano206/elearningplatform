@@ -11,7 +11,8 @@ data class CourseChapter(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long? = null,
-    var chapterTitle: String,
+    @Column(name = "TITLE")
+    var title: String,
     @Column(length = 15000)
     var description: String,
     var content: String,
@@ -19,8 +20,8 @@ data class CourseChapter(
         fetch = FetchType.EAGER,
         cascade = [CascadeType.PERSIST]
     )
-    @JoinColumn(name = "course_id", nullable = true)
+    @JoinColumn(name = "course_id")
     @JsonIgnoreProperties("courseChapter")
-    var course: Course?,
+    var course: Course,
     var position: Int
 )

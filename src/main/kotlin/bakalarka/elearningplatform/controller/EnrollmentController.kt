@@ -3,6 +3,7 @@ package bakalarka.elearningplatform.controller
 import bakalarka.elearningplatform.request.AddEnrollmentRequest
 import bakalarka.elearningplatform.request.UpdateProgressRequest
 import bakalarka.elearningplatform.service.EnrollmentService
+import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
@@ -13,8 +14,8 @@ class EnrollmentController(
 ) {
 
     @PostMapping("")
-    @PreAuthorize("hasAuthority('open:courses')") // TODO: vratit 403 - Bad Request
-    fun add(@RequestBody request: AddEnrollmentRequest) = enrollmentService.add(request)
+    @PreAuthorize("hasAuthority('open:courses')")
+    fun add(@RequestBody request: AddEnrollmentRequest) = ResponseEntity.ok(enrollmentService.add(request))
 
     @GetMapping("")
     @PreAuthorize("hasAuthority('open:courses')")
@@ -32,5 +33,5 @@ class EnrollmentController(
         @PathVariable courseId: Long,
         @PathVariable chapterId: Long,
         @RequestBody request: UpdateProgressRequest
-    ) = enrollmentService.changeChapterProgress(courseId, chapterId, request)
+    ) = ResponseEntity.ok(enrollmentService.changeChapterProgress(courseId, chapterId, request))
 }

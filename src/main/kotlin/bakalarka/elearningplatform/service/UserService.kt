@@ -1,7 +1,8 @@
 package bakalarka.elearningplatform.service
 
+import bakalarka.elearningplatform.exceptions.ServerException
 import bakalarka.elearningplatform.model.Instructor
-import bakalarka.elearningplatform.model.ROLES
+import bakalarka.elearningplatform.model.Roles
 import bakalarka.elearningplatform.request.UpdateUserRequest
 import bakalarka.elearningplatform.security.Management
 import com.auth0.client.mgmt.filter.PageFilter
@@ -32,15 +33,15 @@ class UserService(
         }
     }
 
-    fun addUserRole(userId: String, role: ROLES) {
+    fun addUserRole(userId: String, role: Roles) {
         val userList = mutableListOf<String>()
         userList.add(userId)
         management.managementApi.roles().assignUsers(role.code, userList).execute()
     }
     fun isOwnerOrAdmin(instructor: Instructor): Boolean {
-        val userId = UserService.getUserId()
+        val userId = getUserId()
         val rolesRequest = management.managementApi.users().listRoles(userId, PageFilter()).execute()
-        return !(instructor.userID != userId && !rolesRequest.items.any { role: Role? -> role?.name == "admin" })
+        return !(instructor.userID != userId && !rolesRequest.items.any { role: Role? -> role?.name == Roles.ADMIN.value })
     }
 
     fun update(request: UpdateUserRequest): Boolean {
@@ -52,18 +53,17 @@ class UserService(
         data.familyName = surname
         val dataRequest = management.managementApi.users().update(userId, data)
         try {
-            if (!response.items.any { role: Role? -> role?.name == "user" }) {
-                addUserRole(userId, ROLES.USER)
+            if (!response.items.any { role: Role? -> role?.name == Roles.USER.value }) {
+                addUserRole(userId, Roles.USER)
             }
             dataRequest.execute()
             return true
         } catch (exception: APIException) {
-            // api error
             println(exception)
+            throw ServerException()
         } catch (exception: Auth0Exception) {
             println(exception)
-            // request error
+            throw ServerException()
         }
-        return false
     }
 }

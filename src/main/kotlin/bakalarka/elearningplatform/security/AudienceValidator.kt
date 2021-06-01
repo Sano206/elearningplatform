@@ -11,11 +11,11 @@ internal class AudienceValidator(audience: String) : OAuth2TokenValidator<Jwt> {
     private val audience: String
     override fun validate(jwt: Jwt): OAuth2TokenValidatorResult {
         val audiences = jwt.audience
-        if (audiences.contains(audience)) {
-            return OAuth2TokenValidatorResult.success()
+        if (!audiences.contains(audience)) {
+            val err = OAuth2Error(OAuth2ErrorCodes.INVALID_TOKEN)
+            return OAuth2TokenValidatorResult.failure(err)
         }
-        val err = OAuth2Error(OAuth2ErrorCodes.INVALID_TOKEN)
-        return OAuth2TokenValidatorResult.failure(err)
+        return OAuth2TokenValidatorResult.success()
     }
 
     init {

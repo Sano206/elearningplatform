@@ -1,12 +1,10 @@
 package bakalarka.elearningplatform.controller
 
 import bakalarka.elearningplatform.model.Course
-import bakalarka.elearningplatform.model.TOPIC
 import bakalarka.elearningplatform.request.AddCourseChapterRequest
 import bakalarka.elearningplatform.request.AddCourseRequest
 import bakalarka.elearningplatform.service.ChapterService
 import bakalarka.elearningplatform.service.CourseService
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -39,25 +37,13 @@ class CourseController(
     fun updateCourse(
         @PathVariable courseId: Long,
         @RequestBody request: AddCourseRequest
-    ): ResponseEntity<Course> {
-        val response = courseService.updateCourse(courseId, request)
-        return if (response == null) {
-            ResponseEntity(HttpStatus.UNAUTHORIZED)
-        } else {
-            ResponseEntity.ok(response)
-        }
-    }
-
-    @GetMapping("/topics")
-    fun getTopics() = TOPIC.values()
+    ) = ResponseEntity.ok(courseService.updateCourse(courseId, request))
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('create:courses')")
     fun addCourse(
         @RequestBody request: AddCourseRequest
-    ): Course {
-        return courseService.addCourse(request)
-    }
+    ) = ResponseEntity.ok(courseService.addCourse(request))
 
     @PostMapping("/{courseId}/chapters")
     @PreAuthorize("hasAuthority('create:courses')")

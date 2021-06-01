@@ -1,6 +1,6 @@
 package bakalarka.elearningplatform.model
 
-enum class TOPIC() {
+enum class Topic() {
     IT,
     Business,
     Finance,

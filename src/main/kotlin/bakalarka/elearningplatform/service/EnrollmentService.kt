@@ -1,10 +1,13 @@
 package bakalarka.elearningplatform.service
 
 import bakalarka.elearningplatform.db.EnrollmentRepository
+import bakalarka.elearningplatform.exceptions.BadRequestException
+import bakalarka.elearningplatform.exceptions.ResourceNotFoundException
 import bakalarka.elearningplatform.model.Enrollment
 import bakalarka.elearningplatform.request.AddEnrollmentRequest
 import bakalarka.elearningplatform.request.UpdateProgressRequest
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class EnrollmentService(
@@ -17,18 +20,15 @@ class EnrollmentService(
         return enrollmentRepository.findByUserID(id)
     }
 
-    fun add(request: AddEnrollmentRequest): Enrollment? {
+    fun add(request: AddEnrollmentRequest): Enrollment {
         val (courseId) = request
         val userID = UserService.getUserId()
-        if (courseService.findById(courseId).isPresent) {
-            val course = courseService.findById(courseId).get()
-            if (findByUserId().any { enrollment: Enrollment -> enrollment.course == course }) {
-                return null
-            }
-            return enrollmentRepository.save(Enrollment(userID = userID, course = course))
-        } else {
-            return null
+        val enrollment = enrollmentRepository.findByUserIDAndCourseId(userID, courseId)
+        val course = courseService.findById(courseId)
+        if (enrollment.isPresent) {
+            throw BadRequestException("User is already enrolled in this course.")
         }
+        return enrollmentRepository.save(Enrollment(userID = userID, course = course))
     }
 
     fun get(id: Long) = enrollmentRepository.findById(id)
@@ -40,19 +40,15 @@ class EnrollmentService(
 
     fun update(enrollment: Enrollment) = enrollmentRepository.save(enrollment)
 
-    fun changeChapterProgress(courseId: Long, chapterId: Long, request: UpdateProgressRequest): Enrollment? {
+    fun changeChapterProgress(courseId: Long, chapterId: Long, request: UpdateProgressRequest): Enrollment {
         val (value) = request
-        val enrollment = findByCourseId(courseId)
-
-        return if (enrollment?.course != null) {
-            if (value) {
-                enrollment.progress.add(chapterId)
-            } else {
-                enrollment.progress.remove(chapterId)
-            }
-            return enrollmentRepository.save(enrollment)
+        val userID = UserService.getUserId()
+        val enrollment = enrollmentRepository.findByUserIDAndCourseId(userID, courseId).orElseThrow { ResourceNotFoundException() }
+        if (value) {
+            enrollment.progress.add(chapterId)
         } else {
-            null
+            enrollment.progress.remove(chapterId)
         }
+        return enrollmentRepository.save(enrollment)
     }
 }

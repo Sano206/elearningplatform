@@ -5,7 +5,7 @@ data class AddCourseRequest(
     var description: String,
     var shortDescription: String,
     var thumbnail: String,
-    var fee: Long,
+    var fee: Float,
     var language: String,
     var topic: String,
 )

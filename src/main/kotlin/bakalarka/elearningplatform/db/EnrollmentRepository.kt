@@ -9,4 +9,6 @@ import java.util.*
 interface EnrollmentRepository : CrudRepository<Enrollment, Long> {
 
     fun findByUserID(userID: String): MutableSet<Enrollment>
+
+    fun findByUserIDAndCourseId(userID: String, courseId: Long): Optional<Enrollment>
 }

@@ -13,6 +13,7 @@ class Instructor(
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
     var id: Long? = null,
+    @Column(unique = true)
     val userID: String,
     @Column(length = 15000)
     var introduction: String,

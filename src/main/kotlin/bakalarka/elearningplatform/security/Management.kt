@@ -5,11 +5,21 @@ import com.auth0.client.mgmt.ManagementAPI
 import com.auth0.json.auth.TokenHolder
 import com.auth0.net.AuthRequest
 import org.springframework.stereotype.Service
+import java.io.FileInputStream
+import java.util.*
 
 @Service
-class Management(
-    var authAPI: AuthAPI = AuthAPI("gajd-s.eu.auth0.com", "4cZm8ItqsqUKeLluRAbyo67NVePOPzFe", "NE5o5_PMagv_li7JRhucz2ceYGzKYQBqqJv-SpnPVY8yOpBAz6kQkP9qgqKKLdR5"),
-    var authRequest: AuthRequest = authAPI.requestToken("https://gajd-s.eu.auth0.com/api/v2/"),
-    var holder: TokenHolder = authRequest.execute(),
-    var managementApi: ManagementAPI = ManagementAPI("gajd-s.eu.auth0.com", holder.accessToken)
-)
+class Management {
+    final val managementApi: ManagementAPI
+    private val properties = Properties()
+    private final val propertiesFile = System.getProperty("user.dir") + "\\src\\main\\resources\\application.properties"
+    private val inputStream = FileInputStream(propertiesFile)
+
+    init {
+        properties.load(inputStream)
+        val authAPI = AuthAPI(properties["auth0.domain"] as String, properties["auth0.clientId"] as String, properties["auth0.clientSecret"] as String)
+        val authRequest: AuthRequest = authAPI.requestToken(properties["auth0.audienceProp"] as String)
+        val holder: TokenHolder = authRequest.execute()
+        this.managementApi = ManagementAPI(properties["auth0.domain"] as String, holder.accessToken)
+    }
+}

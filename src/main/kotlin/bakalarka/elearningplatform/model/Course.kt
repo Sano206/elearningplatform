@@ -16,13 +16,13 @@ data class Course(
     var description: String,
     var shortDescription: String,
     var thumbnail: String,
-    var fee: Long,
+    var fee: Float,
     var language: String,
-    var topic: TOPIC,
+    var topic: Topic,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instructor_id")
     @JsonIgnoreProperties("course")
-    val instructor: Instructor?,
+    val instructor: Instructor,
 
     @OneToMany(
         mappedBy = "course",
