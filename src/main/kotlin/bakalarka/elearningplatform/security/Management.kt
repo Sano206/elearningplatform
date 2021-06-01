@@ -4,6 +4,7 @@ import com.auth0.client.auth.AuthAPI
 import com.auth0.client.mgmt.ManagementAPI
 import com.auth0.json.auth.TokenHolder
 import com.auth0.net.AuthRequest
+import org.jetbrains.kotlin.konan.file.File
 import org.springframework.stereotype.Service
 import java.io.FileInputStream
 import java.util.*
@@ -12,7 +13,7 @@ import java.util.*
 class Management {
     final val managementApi: ManagementAPI
     private val properties = Properties()
-    private final val propertiesFile = System.getProperty("user.dir") + "\\src\\main\\resources\\application.properties"
+    private final val propertiesFile = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "application.properties"
     private val inputStream = FileInputStream(propertiesFile)
 
     init {
